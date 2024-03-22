@@ -1,0 +1,6 @@
+[submodule "tlc"]
+	path = tlc
+	url = https://github.com/fjolnir/TLC.git
+[submodule "objc"]
+	path = objc
+	url = https://github.com/rweichler/objc.lua.git

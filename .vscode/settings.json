@@ -1,0 +1,7 @@
+{
+    "Lua.runtime.version": "LuaJIT",
+    "Lua.workspace.library": [
+        "/Users/sora/.vscode/extensions/sumneko.lua-3.7.4-darwin-x64/server/meta/4cce613e",
+        "/Users/sora/Tweaks/WeatherWhirlLua/objc.lua/"
+    ]
+}

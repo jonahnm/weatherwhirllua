@@ -1,5 +1,8 @@
 #include <Foundation/Foundation.h>
 #include <Foundation/NSObjCRuntime.h>
+#include <Foundation/NSString.h>
+#include <Foundation/NSURL.h>
+#include <Foundation/NSURLSession.h>
 #include <luajit-2.1/lauxlib.h>
 #include <luajit-2.1/lualib.h>
 #include <luajit-2.1/luajit.h>
@@ -7,6 +10,7 @@
 #include "../init.h"
 #include "../main.h"
 #include "../json.h"
+#include "../easyhttp.h"
 #include "../weatherhandler.h" 
 #include <libroot.h>
 int loader(lua_State *state) {
@@ -34,8 +38,32 @@ int custom_print(lua_State *L) {
 	}
 	return 0;
 }
+int luadohttp(lua_State *L) {
+	__block const char *out;
+	__block bool toreturn = false;
+	const char *url = lua_tostring(L, 1);
+	NSURL *nsurl = [NSURL URLWithString:[NSString stringWithUTF8String:url]];
+	NSURLSessionDataTask *task = [[NSURLSession sharedSession] dataTaskWithURL:nsurl completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+		if (error) {
+			NSLog(@"%@",error);
+			out = "";
+			toreturn = true;
+			return;
+		}
+		out = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding].UTF8String;
+		toreturn = true;
+	}];
+	[task resume];
+	while (!toreturn) {};
+	if (strcmp(out, "") == 0) {
+		return 0;
+	}
+	lua_pushstring(L, out);
+	return 1;
+}
 __attribute__((constructor)) static void init() {
 	NSLog(@"Hello!");
+	NSLog(@"%s",@encode(void (^)(NSData *data, NSURLResponse *response, NSError *error)));
 	lua_State *L = lua_open();
 	luaL_openlibs(L);
 	luaopen_ffi(L);
@@ -50,6 +78,8 @@ __attribute__((constructor)) static void init() {
 	lua_setglobal(L, "root");
 	lua_pushcfunction(L, custom_print);
 	lua_setglobal(L, "print");
+	lua_pushcfunction(L, luadohttp);
+	lua_setglobal(L, "dohttp");
 	luaL_loadbuffer(L, luaJIT_BC_mainobf, luaJIT_BC_mainobf_SIZE, "main");
 	if(lua_pcall(L, 0, 0, 0) != 0) {
 		NSLog(@"Oops. %@",@(lua_tostring(L, -1)));

@@ -10,7 +10,7 @@ weatherhandler = {}
 ---@return table
 local function fetchForecast(gmcurtime,path)
     print("fetching forecast!")
-    objc.NSAutoreleasePool:new()
+    -- broken objc.NSAutoreleasePool:new()
     print("Made autoreleasepool!")
     local locationManager = objc.CLLocationManager:alloc():init()
     print("Inited!")
@@ -20,48 +20,45 @@ local function fetchForecast(gmcurtime,path)
     print("Updating location!")
     local str = string.format("http://api.openweathermap.org/data/3.0/onecall?lat=%f&lon=%f&appid=4cfd64f823763c23be0eb25c78eb5183",locationManager.location.coordinate.latitude,locationManager.location.coordinate.longitude)
     print(str)
-    local url = objc.NSURL:URLWithString(objc.toobj(str))
     locationManager:stopUpdatingLocation()
-    local out
-    local shouldret = false
-    local taskBlock = objc.block(function (data,response,err)
-        print("Hey, I made a request!")
-        if not err then
-            local jsonStr = objc.NSString:alloc():initWithData_encoding(data,4)
-            local obj = json.decode(objc.tolua(jsonStr))
-            out = obj.hourly
-        end
-        shouldret = true
-    end,"v@@@")
-    local downTask = objc.NSURLSession:sharedSession():dataTaskWithURL_completionHandler(url,taskBlock)
-    downTask:resume()
-    repeat until shouldret
-    if not out then
-        return nil
+    local response = dohttp(str)
+    print(response)
+    local obj = json.decode(response)
+    local toencode = {forday = gmcurtime.yday,hourly = obj.hourly}
+    print("toencode: "..tostring(toencode))
+    local towrite
+    print("About to pcall json!")
+    local thepcall,err = pcall(function ()
+        towrite = json.encode(toencode)
+    end)
+    if not thepcall and err then
+        print("Uhoh." .. tostring(err))
+        return {}
     end
-    local toencode = {forday = gmcurtime.yday,hourly = out}
-    local towrite = json.encode(toencode)
-    local fd = io.open(path)
+    local fd,err = io.open(path,'w')
     if not fd then 
         print("Failed to write forecast.")
-        return
+        print(err)
+        return {}
     end
     fd:write(towrite)
     fd:close()
-   -- objc.NSAutoreleasePool:release()
+    -- broken objc.NSAutoreleasePool:release()
     return toencode
 end
 local function file_exists(name)
     local f = io.open(name, "r")
-    return f ~= nil and io.close(f)
+    return f ~= nil and f:close()
  end
 ---@return table
 local function getForecast()
     local path = root .. "/Library/Application Support/WeatherWhirl/Forecast.json"
-    local time = os.date()
+    print(path)
+    local time = os.date('*t')
     if not file_exists(path) then
         return fetchForecast(time,path)
     else 
+        print('File exists!')
         local fd = io.open(path)
         if not fd then
             print("Failed to open forecast file...")
@@ -70,6 +67,7 @@ local function getForecast()
         local jsonstr = fd:read('*a')
         local obj = json.decode(jsonstr)
         local wasForDay = obj.forday
+        print(wasForDay)
         if wasForDay ~= time.yday then
             fd:close()
             os.remove(path)
@@ -79,38 +77,46 @@ local function getForecast()
         return obj.hourly
     end
 end
----@return table
+---@return string,integer
 local function getIDOfCurrentWeather()
-    local out = {}
     local forecast = getForecast()
-    local curTime = os.date()
+    local curTime = os.date('*t')
+    local name, id
     for i,v in ipairs(forecast) do
+        --print(json.encode(v))
+        --print(json.encode(v.weather[1]))
         local dt = v.dt
+        --print(tostring(dt))
         local forecastTime = os.date('*t',dt)
-        if forecastTime.hour ~= curTime.hour or forecastTime.wday ~= curTime.wday then goto continue end
-        out.name = v.weather[1].description
-        out.id = v.weather[1].id
-        ::continue::
+        --print(tostring(forecastTime.hour))
+        --print(tostring(curTime.hour))
+        if forecastTime.hour ~= curTime.hour or forecastTime.wday ~= curTime.wday then 
+
+        else 
+            name = v.weather[1].description
+            id = v.weather[1].id
+            break
+        end
     end
-    return out
+    return name, id
 end
----@return table
+---@return integer,ffi.cdata*
 function weatherhandler.UIImageForCurrentWeather() 
-    local out = {}
     --TODO: PREFERENCES IN LUA
-    out.id = getIDOfCurrentWeather()
+    local name,id = getIDOfCurrentWeather();
+    print(tostring(id))
     local animpath
     local filepath
-    if out.id == 800 then
+    if id == 800 then
         animpath = root .. "/Library/Application Support/WeatherWhirl/sunAnim.gif"
-    elseif out.id <= 804 and out.id >= 801 then
+    elseif id <= 804 and id >= 801 then
         filepath = root .. "/Library/Application Support/WeatherWhirl/clearskies.jpg"
     end
-    if out.id >= 500 and out.id <= 531 then
+    if id >= 500 and id <= 531 then
         filepath = root .. "/Library/Application Support/WeatherWhirl/grey.jpg"
     end
     print(filepath)
-    out.image = objc.UIImage:imageWithContentsOfFile(objc.toobj(filepath))
-    return out
+    local image = objc.UIImage:imageWithContentsOfFile(objc.toobj(filepath))
+    return id, image
 end
 return weatherhandler

@@ -16,13 +16,13 @@ local ogviewdidload
 local hook = function(_self,_cmd)
     ogviewdidload(_self,_cmd)
     print("Hello from Lua Hook lol!")
-    local ret
+    local id,image
     local thepcall,err = pcall(function()
-        ret = weatherhandler.UIImageForCurrentWeather()
+        id,image = weatherhandler.UIImageForCurrentWeather()
     end)
     if thepcall then
-    print(tostring(ret.id))
-    print(tostring(ret.image))
+    print(tostring(id))
+    print(tostring(image))
     else 
         print("error ocurred!")
         if err then

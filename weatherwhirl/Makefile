@@ -7,8 +7,8 @@ include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = WeatherWhirl
 
-WeatherWhirl_FILES = Tweak.m
-WeatherWhirl_CFLAGS = -fobjc-arc -I/usr/local/include
+WeatherWhirl_FILES = Tweak.m $(wildcard ../luasocket/src/*.c)
+WeatherWhirl_CFLAGS = -fobjc-arc -I/usr/local/include -Wno-unused-variable -Wno-unused-function
 WeatherWhirl_LDFLAGS += -Llib
-WeatherWhirl_LIBRARIES = luajit
+WeatherWhirl_LIBRARIES = luajit curl
 include $(THEOS_MAKE_PATH)/tweak.mk

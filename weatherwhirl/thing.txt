@@ -1,0 +1,221 @@
+local TABLE_TableIndirection = {};
+local obf_cached_str = {};
+local obf_stringchar = string.char;
+local obf_stringbyte = string.byte;
+local obf_stringsub = string.sub;
+local obf_bitlib = bit32 or bit;
+local obf_XOR = obf_bitlib.bxor;
+local obf_tableconcat = table.concat;
+local obf_tableinsert = table.insert;
+local function LUAOBFUSACTOR_DECRYPT_STR_0(LUAOBFUSACTOR_STR, LUAOBFUSACTOR_KEY)
+	local result = {};
+	for i = 1, #LUAOBFUSACTOR_STR do
+		obf_tableinsert(result, obf_stringchar(obf_XOR(obf_stringbyte(obf_stringsub(LUAOBFUSACTOR_STR, i, i + 1)), obf_stringbyte(obf_stringsub(LUAOBFUSACTOR_KEY, 1 + (i % #LUAOBFUSACTOR_KEY), 1 + (i % #LUAOBFUSACTOR_KEY) + 1))) % 256));
+	end
+	return obf_tableconcat(result);
+end
+local obf_OR = obf_bitlib.bor;
+local obf_AND = obf_bitlib.band;
+local obf_stringmatch = string.match;
+local obf_tonumber = tonumber;
+local obf_pcall = pcall;
+obf_cached_str[87] = LUAOBFUSACTOR_DECRYPT_STR_0("\215\27\8\226\38\121\189\237\29\12\241", "\217\161\114\109\149\98\16");
+obf_cached_str[86] = LUAOBFUSACTOR_DECRYPT_STR_0("\110\84\91\19\126\174\126\94\100\118\25\125\157\68\88\97\80\19\125\191\95\82\122\127\25\97", "\45\61\22\19\124\19\203");
+obf_cached_str[84] = LUAOBFUSACTOR_DECRYPT_STR_0("\60\80\88\245\188\99", "\153\83\50\50\150");
+obf_cached_str[83] = LUAOBFUSACTOR_DECRYPT_STR_0("\177\243\21\76\134\169\240\10\65\143\177\245\7\0\211", "\227\222\148\99\37");
+obf_cached_str[81] = LUAOBFUSACTOR_DECRYPT_STR_0("\212\217\22\194\88\228\173\202\200\22\215\24\166", "\200\164\171\115\164\61\150");
+obf_cached_str[80] = LUAOBFUSACTOR_DECRYPT_STR_0("\23\239\39\59\100\82\242\54\55\99\0\248\49\117", "\22\114\157\85\84");
+obf_cached_str[79] = LUAOBFUSACTOR_DECRYPT_STR_0("\219\162\166\199\232\95\87\180\190\179\192\138\87\90\255\170\164\219\189\88\93\195\164\162\220\129\91\88\243\168\236\148", "\57\148\205\214\180\200\54");
+obf_cached_str[77] = LUAOBFUSACTOR_DECRYPT_STR_0("\161\176\231\196\190\176\244\230\191\176\241\149\230", "\176\214\213\134");
+obf_cached_str[76] = LUAOBFUSACTOR_DECRYPT_STR_0("\170\142\169\222\182", "\178\218\237\200");
+obf_cached_str[73] = LUAOBFUSACTOR_DECRYPT_STR_0("\175\42\174\99", "\212\217\67\203\20\223\223\37");
+obf_cached_str[72] = LUAOBFUSACTOR_DECRYPT_STR_0("\93\21\35\89\66\31\34\126\120\25\50\109\14\31\56\106\93\81\119", "\26\46\112\87");
+obf_cached_str[69] = LUAOBFUSACTOR_DECRYPT_STR_0("\103\70\193\96\52\114\67\203\98", "\80\36\42\174\21");
+obf_cached_str[68] = LUAOBFUSACTOR_DECRYPT_STR_0("\237\32\237\95\62\33", "\166\130\66\135\60\27\17");
+obf_cached_str[66] = LUAOBFUSACTOR_DECRYPT_STR_0("\4\208\131\239\226\194\1\227\139\254\253\130\67", "\167\115\181\226\155\138");
+obf_cached_str[65] = LUAOBFUSACTOR_DECRYPT_STR_0("\33\129\125\176\61", "\220\81\226\28");
+obf_cached_str[62] = LUAOBFUSACTOR_DECRYPT_STR_0("\116\10\205\170\17\219\78\0\197\161\20\209\89\18", "\184\60\101\160\207\66");
+obf_cached_str[61] = LUAOBFUSACTOR_DECRYPT_STR_0("\205\131\28\253\124\190", "\56\162\225\118\158\89\142");
+obf_cached_str[60] = LUAOBFUSACTOR_DECRYPT_STR_0("\34\177\138\230\210\48\166\189\251\223\34\241\219", "\186\85\212\235\146");
+obf_cached_str[57] = LUAOBFUSACTOR_DECRYPT_STR_0("\235\196\17\194", "\215\157\173\116\181\46");
+obf_cached_str[55] = LUAOBFUSACTOR_DECRYPT_STR_0("\11\22\218\254\50\48\235", "\145\94\95\153");
+obf_cached_str[54] = LUAOBFUSACTOR_DECRYPT_STR_0("\231\15\83\253\158\178", "\78\136\109\57\158\187\130\226");
+obf_cached_str[53] = LUAOBFUSACTOR_DECRYPT_STR_0("\195\67\49\221\2\211\77\39\216\1\226\77\62\217\23", "\101\161\34\82\182");
+obf_cached_str[52] = LUAOBFUSACTOR_DECRYPT_STR_0("\146\183\50\31\64\75\155\179\187\54\28\13\30", "\233\229\210\83\107\40\46");
+obf_cached_str[50] = LUAOBFUSACTOR_DECRYPT_STR_0("\212\225\17\245\227\63\238", "\34\129\168\82\154\143\80\156");
+obf_cached_str[49] = LUAOBFUSACTOR_DECRYPT_STR_0("\184\231\115\246\172\155", "\171\215\133\25\149\137");
+obf_cached_str[48] = LUAOBFUSACTOR_DECRYPT_STR_0("\39\208\89\81\180\55\222\79\84\183\6\222\86\85\161", "\211\69\177\58\58");
+obf_cached_str[47] = LUAOBFUSACTOR_DECRYPT_STR_0("\41\34\218\78\46\24\220\94\61", "\59\74\78\181");
+obf_cached_str[46] = LUAOBFUSACTOR_DECRYPT_STR_0("\155\248\77\38\26\73\104\186\244\73\37\87\28", "\26\236\157\44\82\114\44");
+obf_cached_str[45] = LUAOBFUSACTOR_DECRYPT_STR_0("\216\252\44\193\183\250\50\146\231\255\61\209\242\208\48\221\226\247\47\136\183", "\178\151\147\92");
+obf_cached_str[43] = LUAOBFUSACTOR_DECRYPT_STR_0("\151\162\198\239\95\250\146\145\206\254\64\186\208", "\159\224\199\167\155\55");
+obf_cached_str[42] = LUAOBFUSACTOR_DECRYPT_STR_0("\228\114\244\161\41", "\231\148\17\149\205\69\77");
+obf_cached_str[41] = LUAOBFUSACTOR_DECRYPT_STR_0("\228\120\52\71\189\58\198\139\100\33\64\220\61\193\198\118\48\93\242\61\255\194\99\44\115\244\53\146\139", "\168\171\23\68\52\157\83");
+obf_cached_str[39] = LUAOBFUSACTOR_DECRYPT_STR_0("\198\12\243\196\215\14\251\202\226", "\169\135\98\154");
+obf_cached_str[38] = LUAOBFUSACTOR_DECRYPT_STR_0("\63\84\210\44\147\85\76\50\94\209\63\137\83\73\114\11", "\62\87\59\191\73\224\54");
+obf_cached_str[36] = LUAOBFUSACTOR_DECRYPT_STR_0("\178\175\34\10\27\1\213\103\172\175\52\91\67", "\49\197\202\67\126\115\100\167");
+obf_cached_str[35] = LUAOBFUSACTOR_DECRYPT_STR_0("\188\45\170\71\203", "\105\204\78\203\43\167\55\126");
+obf_cached_str[33] = LUAOBFUSACTOR_DECRYPT_STR_0("\22\55\7\46\85\4\32\14\59\83\5\62\3\40\24\81", "\61\97\82\102\90");
+obf_cached_str[32] = LUAOBFUSACTOR_DECRYPT_STR_0("\244\114\125\69\215", "\128\132\17\28\41\187\47");
+obf_cached_str[31] = LUAOBFUSACTOR_DECRYPT_STR_0("\95\189\215\178\85\173\197\178\84\182\206\186\84\255\145", "\219\48\218\161");
+obf_cached_str[30] = LUAOBFUSACTOR_DECRYPT_STR_0("\125\70\97\140\251\156\118\72\115\137\241\138\118\4\39", "\235\18\33\23\229\158");
+obf_cached_str[29] = LUAOBFUSACTOR_DECRYPT_STR_0("\65\204\112\236\233\171\57\34\136\112\130\154\145\57\44\196\38\163\160\185\118\97\138\63\190\164\188\34\98\215\90", "\86\75\236\80\204\201\221");
+obf_cached_str[27] = LUAOBFUSACTOR_DECRYPT_STR_0("\72\17\56\237\161", "\58\46\119\81\200\145\208\37");
+obf_cached_str[26] = LUAOBFUSACTOR_DECRYPT_STR_0("\153\77\178\73\187\103\163\66\169\64\164\65\174\81", "\32\218\52\214");
+obf_cached_str[24] = LUAOBFUSACTOR_DECRYPT_STR_0("\65\133\233\46\11\215", "\77\46\231\131");
+obf_cached_str[23] = LUAOBFUSACTOR_DECRYPT_STR_0("\149\39\26\242\212\90\167\33\0\242", "\59\211\72\111\156\176");
+obf_cached_str[21] = LUAOBFUSACTOR_DECRYPT_STR_0("\31\84\137\136\195\126", "\144\112\54\227\235\230\78\205");
+obf_cached_str[20] = LUAOBFUSACTOR_DECRYPT_STR_0("\75\60\177\80\72\73\43\186\85\72\72", "\45\59\78\212\54");
+obf_cached_str[19] = LUAOBFUSACTOR_DECRYPT_STR_0("\40\19\229\160\51\4\241", "\213\90\118\148");
+obf_cached_str[18] = LUAOBFUSACTOR_DECRYPT_STR_0("\146\63\160\76\217\82\20\140\46\160\89\153\16", "\113\226\77\197\42\188\32");
+obf_cached_str[17] = LUAOBFUSACTOR_DECRYPT_STR_0("\123\139\33\2\124\145\39\18\111", "\119\24\231\78");
+obf_cached_str[16] = LUAOBFUSACTOR_DECRYPT_STR_0("\205\26\229\9\51\205\26", "\90\191\127\148\124");
+obf_cached_str[15] = LUAOBFUSACTOR_DECRYPT_STR_0("\245\188\93\64\111\220\239\182\85\75\106\214\248\164", "\191\157\211\48\37\28");
+obf_cached_str[14] = LUAOBFUSACTOR_DECRYPT_STR_0("\46\52\24\174\16\249\36", "\85\92\81\105\219\121\139\65");
+obf_cached_str[13] = LUAOBFUSACTOR_DECRYPT_STR_0("\42\87\58\221\205\23\244\39\93\57\206\215\17\241\103\8", "\134\66\56\87\184\190\116");
+obf_cached_str[12] = LUAOBFUSACTOR_DECRYPT_STR_0("\189\205\12\223\205\166\197\233\171\198\9\199\192\177", "\129\202\168\109\171\165\195\183");
+obf_cached_str[11] = LUAOBFUSACTOR_DECRYPT_STR_0("\170\39\111\11\45\233\234", "\143\216\66\30\126\68\155");
+obf_cached_str[10] = LUAOBFUSACTOR_DECRYPT_STR_0("\89\174\209\102\39\198\95\172\79\165\212\126\42\209\8\244", "\196\46\203\176\18\79\163\45");
+obf_cached_str[9] = LUAOBFUSACTOR_DECRYPT_STR_0("\168\90\58", "\81\206\60\83\91\79");
+obf_cached_str[8] = LUAOBFUSACTOR_DECRYPT_STR_0("\19\226\89\74\122\19\226", "\19\97\135\40\63");
+obf_cached_str[7] = LUAOBFUSACTOR_DECRYPT_STR_0("\187\223\41\9\237", "\44\221\185\64");
+obf_cached_str[4] = LUAOBFUSACTOR_DECRYPT_STR_0("\68\209\178\79\94\45", "\29\43\179\216\44\123");
+obf_cached_str[2] = LUAOBFUSACTOR_DECRYPT_STR_0("\142\78\233\122\225\146\94\224", "\207\225\44\131\25");
+obf_cached_str[1] = LUAOBFUSACTOR_DECRYPT_STR_0("\3\240\168\201\199\106\142", "\235\113\149\217\188\174\24");
+obf_cached_str[0] = LUAOBFUSACTOR_DECRYPT_STR_0("\136\248\197\133\194\170", "\230\231\154\175");
+TABLE_TableIndirection[obf_cached_str[0]] = _G[obf_cached_str[1]](obf_cached_str[2]);
+table.insert(TABLE_TableIndirection[obf_cached_str[4]].searchpaths, "/var/jb/Library/Frameworks/");
+TABLE_TableIndirection[obf_cached_str[7]] = _G[obf_cached_str[8]](obf_cached_str[9]);
+TABLE_TableIndirection[obf_cached_str[10]] = _G[obf_cached_str[11]](obf_cached_str[12]);
+TABLE_TableIndirection[obf_cached_str[13]] = _G[obf_cached_str[14]](obf_cached_str[15]);
+_G[obf_cached_str[16]](obf_cached_str[17]);
+TABLE_TableIndirection[obf_cached_str[18]] = _G[obf_cached_str[19]](obf_cached_str[20]);
+TABLE_TableIndirection[obf_cached_str[21]].load(obf_cached_str[23]);
+TABLE_TableIndirection[obf_cached_str[24]].load(obf_cached_str[26]);
+TABLE_TableIndirection[obf_cached_str[27]].cdef(obf_cached_str[29]);
+TABLE_TableIndirection[obf_cached_str[30]] = nil;
+local function hook(_self, _cmd)
+	local function obf_wrapperfunc(obf_arg)
+		if obf_arg then
+			local FlatIdent_8199B = 1426 - (obf_AND(562, 864) + obf_OR(562, 864));
+			local id;
+			local image;
+			local animimg;
+			local thepcall;
+			local err;
+			while true do
+				if ((FlatIdent_8199B == (obf_AND(0, 0) + obf_OR(0, 0))) or ((obf_AND(333, 530) + obf_OR(333, 530)) >= (5102 - (obf_AND(114, 404) + obf_OR(114, 404))))) then
+					TABLE_TableIndirection[obf_cached_str[31]](_self, _cmd);
+					id, image, animimg = nil;
+					FlatIdent_8199B = 489 - (obf_AND(106, 382) + obf_OR(106, 382));
+				end
+				if (((412 - (obf_AND(306, 105) + obf_OR(306, 105))) == FlatIdent_8199B) or ((1852 - 1128) >= (2095 - (obf_AND(166, 261) + obf_OR(166, 261))))) then
+					thepcall, err = _G[obf_cached_str[32]](function()
+						id, image, animimg = TABLE_TableIndirection[obf_cached_str[33]].UIImageForCurrentWeather();
+					end);
+					if (((935 - (obf_AND(289, 218) + obf_OR(289, 218))) < (3148 - (obf_AND(1213, 131) + obf_OR(1213, 131)))) and thepcall) then
+						local FlatIdent_5ED46 = obf_AND(0, 0) + obf_OR(0, 0);
+						while true do
+							if ((FlatIdent_5ED46 == (obf_AND(2, 1) + obf_OR(2, 1))) or ((12138 - 8813) > (16381 - 11768))) then
+								if (animimg or ((5809 - (obf_AND(814, 45) + obf_OR(814, 45))) <= (11218 - 6665))) then
+									local FlatIdent_27957 = obf_AND(0, 0) + obf_OR(0, 0);
+									while true do
+										if (((obf_AND(942, 1723) + obf_OR(942, 1723)) <= (4818 - (obf_AND(261, 624) + obf_OR(261, 624)))) and ((0 - 0) == FlatIdent_27957)) then
+											thepcall, err = _G[obf_cached_str[35]](function()
+												TABLE_TableIndirection[obf_cached_str[36]]:setAnimationWithGif(animimg, TABLE_TableIndirection[obf_cached_str[38]][obf_cached_str[39]].TopLeftCorner);
+											end);
+											if (((4353 - (obf_AND(1020, 60) + obf_OR(1020, 60))) == (4696 - (obf_AND(630, 793) + obf_OR(630, 793)))) and not thepcall and err) then
+												print(obf_cached_str[41] .. tostring(err));
+											end
+											break;
+										end
+									end
+								end
+								thepcall, err = _G[obf_cached_str[42]](function()
+									TABLE_TableIndirection[obf_cached_str[43]]:placeClouds(id);
+								end);
+								if (((12958 - 9134) > (1936 - 1527)) and not thepcall and err) then
+									print(obf_cached_str[45] .. tostring(err));
+								end
+								break;
+							end
+							if (((obf_AND(822, 1265) + obf_OR(822, 1265)) == (7185 - 5098)) and ((1748 - (obf_AND(760, 987) + obf_OR(760, 987))) == FlatIdent_5ED46)) then
+								TABLE_TableIndirection[obf_cached_str[46]][obf_cached_str[47]][obf_cached_str[48]] = TABLE_TableIndirection[obf_cached_str[49]][obf_cached_str[50]]:clearColor();
+								TABLE_TableIndirection[obf_cached_str[52]][obf_cached_str[53]] = TABLE_TableIndirection[obf_cached_str[54]][obf_cached_str[55]]:clearColor();
+								_self[obf_cached_str[57]]:addSubview(TABLE_TableIndirection["weatherView%0"]);
+								FlatIdent_5ED46 = 1915 - (obf_AND(1789, 124) + obf_OR(1789, 124));
+							end
+							if ((FlatIdent_5ED46 == (766 - (obf_AND(745, 21) + obf_OR(745, 21)))) or ((obf_AND(1171, 2233) + obf_OR(1171, 2233)) > (12390 - 7887))) then
+								TABLE_TableIndirection[obf_cached_str[60]] = TABLE_TableIndirection[obf_cached_str[61]][obf_cached_str[62]]:alloc():init();
+								thepcall, err = _G[obf_cached_str[65]](function()
+									TABLE_TableIndirection[obf_cached_str[66]]:setCloudView(TABLE_TableIndirection[obf_cached_str[68]][obf_cached_str[69]]:alloc():init());
+								end);
+								if ((not thepcall and err) or ((13752 - 10246) <= (obf_AND(11, 1298) + obf_OR(11, 1298)))) then
+									local FlatIdent_E652 = obf_AND(0, 0) + obf_OR(0, 0);
+									while true do
+										if (((4010 - (obf_AND(87, 968) + obf_OR(87, 968))) == (13007 - 10052)) and ((obf_AND(0, 0) + obf_OR(0, 0)) == FlatIdent_E652)) then
+											print(obf_cached_str[72] .. tostring(err));
+											return;
+										end
+									end
+								end
+								FlatIdent_5ED46 = 2 - 1;
+							end
+							if ((FlatIdent_5ED46 == (1415 - (obf_AND(447, 966) + obf_OR(447, 966)))) or ((7947 - 5044) == (3312 - (obf_AND(1703, 114) + obf_OR(1703, 114))))) then
+								_self[obf_cached_str[73]]:sendSubviewToBack(TABLE_TableIndirection["weatherView%0"]);
+								thepcall, err = _G[obf_cached_str[76]](function()
+									TABLE_TableIndirection[obf_cached_str[77]]:setBackgroundWithImage(image);
+								end);
+								if (((5247 - (obf_AND(376, 325) + obf_OR(376, 325))) >= (3728 - 1453)) and not thepcall and err) then
+									print(obf_cached_str[79] .. tostring(err));
+								end
+								FlatIdent_5ED46 = 8 - 5;
+							end
+						end
+					else
+						local FlatIdent_77C29 = obf_AND(0, 0) + obf_OR(0, 0);
+						while true do
+							if (((1803 - 984) >= (36 - (obf_AND(9, 5) + obf_OR(9, 5)))) and (FlatIdent_77C29 == (376 - (obf_AND(85, 291) + obf_OR(85, 291))))) then
+								print(obf_cached_str[80]);
+								if (((4427 - (obf_AND(243, 1022) + obf_OR(243, 1022))) == (12031 - 8869)) and err) then
+									print(tostring(err));
+								end
+								break;
+							end
+						end
+					end
+					break;
+				end
+			end
+		else
+			local sdawdwqdq = obf_arg[1];
+		end
+	end
+	if (obf_tonumber(obf_stringmatch(obf_stringmatch(({obf_pcall(obf_wrapperfunc, nil)})[2], ":%d+:"), "%d+")) == 1) then
+		return obf_wrapperfunc({});
+	else
+		return hook();
+	end
+end
+function Initme()
+	local function obf_wrapperfunc(obf_arg)
+		if obf_arg then
+			local FlatIdent_703C8 = obf_AND(0, 0) + obf_OR(0, 0);
+			while true do
+				if ((FlatIdent_703C8 == (1180 - (obf_AND(1123, 57) + obf_OR(1123, 57)))) or ((obf_AND(1928, 441) + obf_OR(1928, 441)) > (4683 - (obf_AND(163, 91) + obf_OR(163, 91))))) then
+					TABLE_TableIndirection[obf_cached_str[81]].loadPrefs();
+					TABLE_TableIndirection[obf_cached_str[83]] = TABLE_TableIndirection[obf_cached_str[84]].MSHookMessageEx(obf_cached_str[86], obf_cached_str[87], hook);
+					break;
+				end
+			end
+		else
+			local sdawdwqdq = obf_arg[1];
+		end
+	end
+	if (obf_tonumber(obf_stringmatch(obf_stringmatch(({obf_pcall(obf_wrapperfunc, nil)})[2], ":%d+:"), "%d+")) == 1) then
+		return obf_wrapperfunc({});
+	else
+		return Initme();
+	end
+end
+

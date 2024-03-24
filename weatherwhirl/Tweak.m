@@ -11,7 +11,11 @@
 #include "../main.h"
 #include "../json.h"
 #include "../easyhttp.h"
-#include "../weatherhandler.h" 
+#include "../weatherhandler.h"
+#include "../homescreenview.h" 
+#include "../cloudview.h"
+#include "../preferences.h"
+#include "../lfs/src/lfs.h"
 #include <libroot.h>
 int loader(lua_State *state) {
 	const char *name = lua_tostring(state, 1);
@@ -24,6 +28,15 @@ int loader(lua_State *state) {
 		return 1;
 	} else if (strcmp(name,"weatherhandler") == 0) {
 		luaL_loadbuffer(state, luaJIT_BC_weatherhandler, luaJIT_BC_weatherhandler_SIZE, name);
+		return 1;
+	} else if (strcmp(name,"homescreenview") == 0) {
+		luaL_loadbuffer(state, luaJIT_BC_homescreenview, luaJIT_BC_homescreenview_SIZE, name);
+		return 1;
+	} else if (strcmp(name, "cloudview") == 0) {
+		luaL_loadbuffer(state, luaJIT_BC_cloudview, luaJIT_BC_cloudview_SIZE, name);
+		return 1;
+	} else if (strcmp(name, "preferences") == 0) {
+		luaL_loadbuffer(state, luaJIT_BC_preferences, luaJIT_BC_preferences_SIZE, name);
 		return 1;
 	}
 	return 0;
@@ -68,6 +81,7 @@ __attribute__((constructor)) static void init() {
 	luaL_openlibs(L);
 	luaopen_ffi(L);
 	luaopen_bit(L);
+	luaopen_lfs(L);
 	lua_getglobal(L, "package");
 	lua_getfield(L, -1, "loaders");
 	const size_t length = lua_objlen(L, -1);

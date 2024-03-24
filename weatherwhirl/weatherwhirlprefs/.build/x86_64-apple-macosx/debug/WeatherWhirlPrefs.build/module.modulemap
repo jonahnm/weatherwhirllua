@@ -1,0 +1,4 @@
+module WeatherWhirlPrefs {
+    header "/Users/sora/Tweaks/weatherwhirllua/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefs.build/WeatherWhirlPrefs-Swift.h"
+    requires objc
+}

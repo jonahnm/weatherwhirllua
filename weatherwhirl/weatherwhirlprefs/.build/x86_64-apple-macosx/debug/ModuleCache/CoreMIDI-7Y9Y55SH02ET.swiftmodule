@@ -1,0 +1,64 @@
+---
+path:            '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/swift/iphoneos/prebuilt-modules/16.4/CoreMIDI.swiftmodule/arm64-apple-ios.swiftmodule'
+dependencies:
+  - mtime:           1679630422000000000
+    path:            '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/swift/iphoneos/prebuilt-modules/16.4/CoreMIDI.swiftmodule/arm64-apple-ios.swiftmodule'
+    size:            61680
+  - mtime:           1709689729156079939
+    path:            'usr/lib/swift/Swift.swiftmodule/arm64-apple-ios.swiftinterface'
+    size:            2001899
+    sdk_relative:    true
+  - mtime:           1709689728917261199
+    path:            'usr/include/Darwin.apinotes'
+    size:            1133
+    sdk_relative:    true
+  - mtime:           1709689728888648568
+    path:            'usr/include/objc/ObjectiveC.apinotes'
+    size:            11147
+    sdk_relative:    true
+  - mtime:           1709689732398146725
+    path:            'System/Library/Frameworks/Security.framework/Headers/Security.apinotes'
+    size:            162
+    sdk_relative:    true
+  - mtime:           1709689733920593642
+    path:            'System/Library/Frameworks/Foundation.framework/Headers/Foundation.apinotes'
+    size:            80986
+    sdk_relative:    true
+  - mtime:           1709689729020630740
+    path:            'usr/lib/swift/Darwin.swiftmodule/arm64-apple-ios.swiftinterface'
+    size:            25392
+    sdk_relative:    true
+  - mtime:           1709689729147175309
+    path:            'usr/lib/swift/_Concurrency.swiftmodule/arm64-apple-ios.swiftinterface'
+    size:            122757
+    sdk_relative:    true
+  - mtime:           1709689729010671136
+    path:            'usr/lib/swift/_StringProcessing.swiftmodule/arm64-apple-ios.swiftinterface'
+    size:            21724
+    sdk_relative:    true
+  - mtime:           1709689733360089748
+    path:            'System/Library/Frameworks/Combine.framework/Modules/Combine.swiftmodule/arm64-apple-ios.swiftinterface'
+    size:            169320
+    sdk_relative:    true
+  - mtime:           1709689729090282713
+    path:            'usr/lib/swift/ObjectiveC.swiftmodule/arm64-apple-ios.swiftinterface'
+    size:            4631
+    sdk_relative:    true
+  - mtime:           1709689729131809520
+    path:            'usr/lib/swift/Dispatch.swiftmodule/arm64-apple-ios.swiftinterface'
+    size:            52393
+    sdk_relative:    true
+  - mtime:           1709689729186330574
+    path:            'usr/lib/swift/CoreFoundation.swiftmodule/arm64-apple-ios.swiftinterface'
+    size:            22182
+    sdk_relative:    true
+  - mtime:           1709689733937279736
+    path:            'System/Library/Frameworks/Foundation.framework/Modules/Foundation.swiftmodule/arm64-apple-ios.swiftinterface'
+    size:            746587
+    sdk_relative:    true
+  - mtime:           1709689729075718752
+    path:            'usr/lib/swift/CoreMIDI.swiftmodule/arm64-apple-ios.swiftinterface'
+    size:            14014
+    sdk_relative:    true
+version:         1
+...

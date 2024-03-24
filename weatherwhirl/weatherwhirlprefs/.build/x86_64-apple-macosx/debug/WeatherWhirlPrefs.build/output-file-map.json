@@ -1,0 +1,23 @@
+{
+  "": {
+    "swift-dependencies": "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefs.build/master.swiftdeps"
+  },
+  "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/Sources/WeatherWhirlPrefs/Main/PreferenceStorage.swift": {
+    "dependencies": "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefs.build/PreferenceStorage.d",
+    "object": "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefs.build/PreferenceStorage.swift.o",
+    "swiftmodule": "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefs.build/PreferenceStorage~partial.swiftmodule",
+    "swift-dependencies": "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefs.build/PreferenceStorage.swiftdeps"
+  },
+  "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/Sources/WeatherWhirlPrefs/Main/RootView.swift": {
+    "dependencies": "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefs.build/RootView.d",
+    "object": "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefs.build/RootView.swift.o",
+    "swiftmodule": "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefs.build/RootView~partial.swiftmodule",
+    "swift-dependencies": "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefs.build/RootView.swiftdeps"
+  },
+  "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/Sources/WeatherWhirlPrefs/RootListController.swift": {
+    "dependencies": "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefs.build/RootListController.d",
+    "object": "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefs.build/RootListController.swift.o",
+    "swiftmodule": "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefs.build/RootListController~partial.swiftmodule",
+    "swift-dependencies": "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefs.build/RootListController.swiftdeps"
+  }
+}

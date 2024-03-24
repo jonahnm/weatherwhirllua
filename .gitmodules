@@ -4,3 +4,6 @@
 [submodule "objc"]
 	path = objc
 	url = https://github.com/rweichler/objc.lua.git
+[submodule "lfs"]
+	path = lfs
+	url = https://github.com/lunarmodules/luafilesystem.git

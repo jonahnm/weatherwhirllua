@@ -1,0 +1,277 @@
+{
+  "builtTestProducts" : [
+
+  ],
+  "copyCommands" : {
+
+  },
+  "explicitTargetDependencyImportCheckingMode" : {
+    "none" : {
+
+    }
+  },
+  "generatedSourceTargetSet" : [
+
+  ],
+  "pluginDescriptions" : [
+
+  ],
+  "swiftCommands" : {
+    "C.WeatherWhirlPrefs-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefs.build/sources",
+      "importPath" : "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/Sources/WeatherWhirlPrefs/Main/PreferenceStorage.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/Sources/WeatherWhirlPrefs/Main/RootView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/Sources/WeatherWhirlPrefs/RootListController.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefsC.build/WeatherWhirlPrefs.m.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefs.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "WeatherWhirlPrefs",
+      "moduleOutputPath" : "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefs.swiftmodule",
+      "objects" : [
+        "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefs.build/PreferenceStorage.swift.o",
+        "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefs.build/RootView.swift.o",
+        "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefs.build/RootListController.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "x86_64-apple-macosx10.13",
+        "-swift-version",
+        "5",
+        "-enable-batch-mode",
+        "-index-store-path",
+        "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-j16",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-Xcc",
+        "-fmodule-map-file=/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/Sources/WeatherWhirlPrefsC/include/module.modulemap",
+        "-Xcc",
+        "-I",
+        "-Xcc",
+        "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/Sources/WeatherWhirlPrefsC/include",
+        "-module-cache-path",
+        "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefs.build/WeatherWhirlPrefs-Swift.h",
+        "-color-diagnostics",
+        "-F/Users/sora/theos/vendor/lib",
+        "-F/Users/sora/theos/lib",
+        "-I/Users/sora/theos/vendor/include",
+        "-I/Users/sora/theos/include",
+        "-target",
+        "arm64-apple-ios14.5",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.4.sdk",
+        "-resource-dir",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/swift",
+        "-sdk",
+        "/Users/sora/theos/sdks/iPhoneOS16.5.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-target",
+        "arm64-apple-ios16.5",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Users/sora/theos/sdks/iPhoneOS16.5.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g"
+      ],
+      "outputFileMapPath" : "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefs.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefs.build/PreferenceStorage.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefs.build/RootView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefs.build/RootListController.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefs.swiftmodule"
+        }
+      ],
+      "sources" : [
+        "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/Sources/WeatherWhirlPrefs/Main/PreferenceStorage.swift",
+        "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/Sources/WeatherWhirlPrefs/Main/RootView.swift",
+        "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/Sources/WeatherWhirlPrefs/RootListController.swift"
+      ],
+      "tempsPath" : "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefs.build",
+      "wholeModuleOptimization" : false
+    }
+  },
+  "swiftFrontendCommands" : {
+
+  },
+  "swiftTargetScanArgs" : {
+    "WeatherWhirlPrefs" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "WeatherWhirlPrefs",
+      "-incremental",
+      "-c",
+      "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/Sources/WeatherWhirlPrefs/Main/PreferenceStorage.swift",
+      "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/Sources/WeatherWhirlPrefs/Main/RootView.swift",
+      "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/Sources/WeatherWhirlPrefs/RootListController.swift",
+      "-I",
+      "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug",
+      "-target",
+      "x86_64-apple-macosx10.13",
+      "-swift-version",
+      "5",
+      "-enable-batch-mode",
+      "-index-store-path",
+      "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-j16",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-Xcc",
+      "-fmodule-map-file=/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/Sources/WeatherWhirlPrefsC/include/module.modulemap",
+      "-Xcc",
+      "-I",
+      "-Xcc",
+      "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/Sources/WeatherWhirlPrefsC/include",
+      "-module-cache-path",
+      "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefs.build/WeatherWhirlPrefs-Swift.h",
+      "-color-diagnostics",
+      "-F/Users/sora/theos/vendor/lib",
+      "-F/Users/sora/theos/lib",
+      "-I/Users/sora/theos/vendor/include",
+      "-I/Users/sora/theos/include",
+      "-target",
+      "arm64-apple-ios14.5",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.4.sdk",
+      "-resource-dir",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/swift",
+      "-sdk",
+      "/Users/sora/theos/sdks/iPhoneOS16.5.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-target",
+      "arm64-apple-ios16.5",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Users/sora/theos/sdks/iPhoneOS16.5.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ]
+  },
+  "targetDependencyMap" : {
+    "WeatherWhirlPrefs" : [
+      "WeatherWhirlPrefsC"
+    ],
+    "WeatherWhirlPrefsC" : [
+
+    ]
+  },
+  "testDiscoveryCommands" : {
+
+  },
+  "testEntryPointCommands" : {
+
+  },
+  "writeCommands" : {
+    "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt" : {
+      "alwaysOutOfDate" : true,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<swift-get-version>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+        }
+      ],
+      "outputFilePath" : "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+    },
+    "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefs.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/Sources/WeatherWhirlPrefs/Main/PreferenceStorage.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/Sources/WeatherWhirlPrefs/Main/RootView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/Sources/WeatherWhirlPrefs/RootListController.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/sora/Tweaks/weatherwhirl/weatherwhirlprefs/.build/x86_64-apple-macosx/debug/WeatherWhirlPrefs.build/sources"
+    }
+  }
+}

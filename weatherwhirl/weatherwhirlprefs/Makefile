@@ -9,10 +9,8 @@ WeatherWhirlPrefs_FILES = $(shell find Sources/WeatherWhirlPrefs -name '*.swift'
 WeatherWhirlPrefs_SWIFTFLAGS = -ISources/WeatherWhirlPrefsC/include
 ifndef ROOTFUL
 THEOS_PACKAGE_SCHEME = rootless
-WeatherWhirlPrefs_INSTALL_PATH = /var/jb/Library/PreferenceBundles
-else
-  WeatherWhirlPrefs_INSTALL_PATH = /Library/PreferenceBundles
 endif
+WeatherWhirlPrefs_INSTALL_PATH = /Library/PreferenceBundles
 WeatherWhirlPrefs_CFLAGS = -fobjc-arc
 WeatherWhirlPrefs_EXTRA_FRAMEWORKS = Comet
 include $(THEOS_MAKE_PATH)/bundle.mk

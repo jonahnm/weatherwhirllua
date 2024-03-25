@@ -32,28 +32,34 @@ local function CGPointMake(x,y)
     return point
 end
 local function randomPointOnScreen(rect,checker)
-    math.randomseed(os.time() + tonumber(tostring({}):sub(8)))
     local UIScreenBounds = objc.UIScreen:mainScreen().bounds
-    local toret = CGPointMake(math.random(0,UIScreenBounds.size.width),math.random(0,UIScreenBounds.size.height))
+    local toret = CGPointMake(math.random(0,(UIScreenBounds.size.width)),math.random(0,UIScreenBounds.size.height))
     --toret = objc.UIScreen:mainScreen().coordinateSpace:convertPoint_toCoordinateSpace(toret,checker)
-  if checker then 
+    if checker then 
        -- print("converting array")
-      local toiter = objc.tolua(checker.subviews)
-       -- print("converted array")
-      if toiter ~= {} then
-      for _,v in ipairs(toiter) do
-           --print('Iteration!')
-           if ffi.C.CGRectContainsPoint(v.frame,toret) then
-               return randomPointOnScreen(rect,checker)
-           end
-       end
-     end
- return toret
-   else 
-       return toret
-   end
+        local toiter = objc.tolua(checker.subviews)
+        --print("converted array")
+        if toiter ~= {} then
+        for _,v in ipairs(toiter) do
+            --print('Iteration!')
+            if ffi.C.CGRectContainsPoint(v.frame,toret) then
+                return randomPointOnScreen(rect,checker)
+            end
+        end
+    end
+    return toret
+    else 
+        return toret
+    end
 end
 function objc.CloudView:placeClouds(cloudType,cloud,rain)
+    local toiter = objc.tolua(self.subviews)
+    if toiter ~= {} then
+        for _,v in ipairs(toiter) do
+            v:removeFromSuperview()
+            v:release()
+        end
+    end
     local coveragePercent
     local rainFramePathsIter,rainFramePathsobj
     if cloudType == CloudTypes.FewClouds then
@@ -65,7 +71,7 @@ function objc.CloudView:placeClouds(cloudType,cloud,rain)
     elseif cloudType == CloudTypes.OverClouds then
         coveragePercent = math.random(85,100)
     end
-    --print("Coverage Percentage: "..tostring(coveragePercent))
+   -- print("Coverage Percentage: "..tostring(coveragePercent))
     local imgs = {}
     if rain ~= RainTypes.None and rain ~= RainTypes.EXTREME then
         for file in lfs.dir(root .. "/Library/Application Support/WeatherWhirl/lightrain") do

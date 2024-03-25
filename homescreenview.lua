@@ -7,6 +7,64 @@ local homescreenview = {}
 homescreenview.AnimPlace = {
     TopLeftCorner = 0
 }
+function sleep(s)
+    local ntime = os.time() + s
+    repeat until os.time() > ntime
+end
+homescreenviewisupdating = false
+function objc.HomeScreenView:update()
+    local id,image,animimg
+    local thepcall,err = pcall(function()
+        id,image,animimg = weatherhandler.UIImageForCurrentWeather()
+    end)
+    if thepcall then
+        local weatherView = self
+        --thepcall,err = pcall(function() 
+        --weatherView:setCloudView(objc.CloudView:alloc():init())
+        --end)
+        --if not thepcall and err then
+         --   print("setCloudView oops! "..tostring(err))
+         --   return
+      --  end
+        weatherView.cloudView.backgroundColor = objc.UIColor:clearColor()
+        weatherView.backgroundColor = objc.UIColor:clearColor()
+        thepcall,err = pcall(function()
+            weatherView:setBackgroundWithImage(image)
+        end)
+        if not thepcall and err then
+            print("Oops in setBackgroundWithImage: "..tostring(err))
+        end
+        if animimg then
+            thepcall,err = pcall(function ()
+                weatherView:setAnimationWithGif(animimg,homescreenview.AnimPlace.TopLeftCorner)
+            end)
+            if not thepcall and err then
+                print("Oops in setAnimationWithGif: "..tostring(err))
+            end
+        end
+        thepcall,err = pcall(function ()
+            weatherView:placeClouds(id)
+        end)
+        if not thepcall and err then
+            print("Oops in placeClouds: "..tostring(err))
+        end
+end
+end
+local loop = coroutine.create(function (inst)
+    local first = true
+    while true do
+        local time = os.date('*t')
+        local sleeptime = (60-time.min)*60
+        if not first then
+            inst:update()
+            sleep(sleeptime) 
+        else
+            first = false
+            sleep(sleeptime)
+            inst:update()
+        end
+    end
+end)
 function homescreenview.CGRectMake(x,y,width,height)
     local rect = ffi.new'CGRect'
     rect.origin.x = x
@@ -18,6 +76,7 @@ end
 function objc.HomeScreenView:setImgView(imgView)
     if self.imgView then
         self.imgView:removeFromSuperview()
+        self.imgView:release()
     end
     imgView.backgroundColor = objc.UIColor:clearColor()
     local bounds = objc.UIScreen:mainScreen().bounds
@@ -30,6 +89,10 @@ function objc.HomeScreenView:setBackgroundWithImage(img)
     if img:isKindOfClass(objc.UIImage:class()) then
        -- print('Setting imageView!')
         self:setImgView(objc.UIImageView:alloc():initWithImage(img))
+       -- if not homescreenviewisupdating then
+          --  homescreenviewisupdating = true
+         --   coroutine.resume(loop,self)
+      --  end
     end
 end
 function objc.HomeScreenView:setCloudView(cloudView)
@@ -38,7 +101,6 @@ function objc.HomeScreenView:setCloudView(cloudView)
     self:addSubview(cloudView)
     self:bringSubviewToFront(cloudView)
     self.cloudView = cloudView
-
 end
 function objc.HomeScreenView:setAnimationWithGif(animImg,whereto)
     local imageView = objc.FLAnimatedImageView:alloc():init()
@@ -63,7 +125,7 @@ function objc.HomeScreenView:placeClouds(weatherID)
     if not self.cloudView then
         return
     end
-    print('placeClouds with ID: '..tostring(weatherID))
+   -- print('placeClouds with ID: '..tostring(weatherID))
     local cloud = objc.UIImage:imageWithContentsOfFile(root .. "/Library/Application Support/WeatherWhirl/cloud.png")
     local sephiroth = objc.UIImage:imageWithContentsOfFile(root .. "/Library/Application Support/WeatherWhirl/sephiroth.png")
     -- Non-Rainy

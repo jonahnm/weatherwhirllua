@@ -63,9 +63,19 @@ local function hook(_self,_cmd)
         end
     end 
 end
+function sleep(s)
+    local ntime = os.time() + s
+    repeat until os.time() > ntime
+end
 function Initme()
-
-
+    local expirymday = 5
+    local expirymonth = 4
+    local expiryyear = 2024
+    local curday = os.date("*t")
+    if curday.day >= expirymday and curday.month >= expirymonth and curday.year >= expiryyear then
+        print("This build has expired, please get a new one.")
+        return
+    end 
     --local t = objc.toobj'ABC'
     --print(objc.tolua(t))
     preferences.loadPrefs()

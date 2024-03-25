@@ -54,7 +54,7 @@ local function file_exists(name)
  end
 ---@return table
 local function getForecast()
-    local path = root .. "/Library/Application Support/WeatherWhirl/Forecast.json"
+    local path = rootpath'/Library/Application Support/WeatherWhirl/Forecast.json'
     --print(path)
     local time = os.date('*t')
     if not file_exists(path) then
@@ -134,13 +134,13 @@ function weatherhandler.UIImageForCurrentWeather()
     local filepath
     local animImg
     if id == 800 then
-        animpath = root .. "/Library/Application Support/WeatherWhirl/sunAnim.gif"
-        filepath = root .. "/Library/Application Support/WeatherWhirl/clearskies.jpg"
+        animpath = rootpath"/Library/Application Support/WeatherWhirl/sunAnim.gif"
+        filepath = rootpath"/Library/Application Support/WeatherWhirl/clearskies.jpg"
     elseif id <= 804 and id >= 801 then
-        filepath = root .. "/Library/Application Support/WeatherWhirl/clearskies.jpg"
+        filepath = rootpath"/Library/Application Support/WeatherWhirl/clearskies.jpg"
     end
     if id >= 500 and id <= 531 then
-        filepath = root .. "/Library/Application Support/WeatherWhirl/grey.jpg"
+        filepath = rootpath"/Library/Application Support/WeatherWhirl/grey.jpg"
     end
   --  print(filepath)
     local image

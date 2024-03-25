@@ -1,7 +1,7 @@
 Package: com.sora.weatherwhirl
 Name: WeatherWhirl
 Version: 0.0.1
-Architecture: iphoneos-arm64
+Architecture: iphoneos-arm
 Description: An awesome MobileSubstrate tweak!
 Maintainer: Sora
 Author: Sora

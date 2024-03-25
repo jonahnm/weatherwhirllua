@@ -126,8 +126,8 @@ function objc.HomeScreenView:placeClouds(weatherID)
         return
     end
    -- print('placeClouds with ID: '..tostring(weatherID))
-    local cloud = objc.UIImage:imageWithContentsOfFile(root .. "/Library/Application Support/WeatherWhirl/cloud.png")
-    local sephiroth = objc.UIImage:imageWithContentsOfFile(root .. "/Library/Application Support/WeatherWhirl/sephiroth.png")
+    local cloud = objc.UIImage:imageWithContentsOfFile(rootpath"/Library/Application Support/WeatherWhirl/cloud.png")
+    local sephiroth = objc.UIImage:imageWithContentsOfFile(rootpath"/Library/Application Support/WeatherWhirl/sephiroth.png")
     -- Non-Rainy
     if weatherID == 801 then
         self.cloudView:placeClouds(CloudTypes.FewClouds,cloud,RainTypes.None)

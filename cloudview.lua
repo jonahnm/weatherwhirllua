@@ -74,9 +74,9 @@ function objc.CloudView:placeClouds(cloudType,cloud,rain)
    -- print("Coverage Percentage: "..tostring(coveragePercent))
     local imgs = {}
     if rain ~= RainTypes.None and rain ~= RainTypes.EXTREME then
-        for file in lfs.dir(root .. "/Library/Application Support/WeatherWhirl/lightrain") do
+        for file in lfs.dir(rootpath"/Library/Application Support/WeatherWhirl/lightrain") do
             if file ~= "." and file ~= ".." then
-                local fullpath = root .. "/Library/Application Support/WeatherWhirl/lightrain/" .. file
+                local fullpath = rootpath"/Library/Application Support/WeatherWhirl/lightrain/" .. file
                 local img = objc.UIImage:imageWithContentsOfFile(objc.toobj(fullpath))
                 if img then
                     table.insert(imgs,img)

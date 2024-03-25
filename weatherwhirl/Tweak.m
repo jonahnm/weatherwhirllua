@@ -16,7 +16,7 @@
 #include "../cloudview.h"
 #include "../preferences.h"
 #include "../lfs/src/lfs.h"
-#include <libroot.h>
+#include <rootless.h>
 int loader(lua_State *state) {
 	const char *name = lua_tostring(state, 1);
 	NSLog(@"Hello again! %@",@(name));
@@ -74,9 +74,15 @@ int luadohttp(lua_State *L) {
 	lua_pushstring(L, out);
 	return 1;
 }
+int luarootpathify(lua_State *L) {
+	const char *path = lua_tostring(L, 1);
+	const char *rootified = ROOT_PATH(path);
+	lua_pushstring(L, rootified);
+	return 1;
+}
 __attribute__((constructor)) static void init() {
-	NSLog(@"Hello!");
-	NSLog(@"%s",@encode(void (^)(NSData *data, NSURLResponse *response, NSError *error)));
+	//NSLog(@"Hello!");
+	//NSLog(@"%s",@encode(void (^)(NSData *data, NSURLResponse *response, NSError *error)));
 	lua_State *L = lua_open();
 	luaL_openlibs(L);
 	luaopen_ffi(L);
@@ -88,8 +94,8 @@ __attribute__((constructor)) static void init() {
 	lua_pushcfunction(L, loader);
 	lua_rawseti(L, -2,length + 1);
 	lua_pop(L,2);
-	lua_pushstring(L, libroot_dyn_get_root_prefix());
-	lua_setglobal(L, "root");
+	lua_pushcfunction(L, luarootpathify);
+	lua_setglobal(L, "rootpath");
 	lua_pushcfunction(L, custom_print);
 	lua_setglobal(L, "print");
 	lua_pushcfunction(L, luadohttp);

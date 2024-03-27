@@ -2,12 +2,10 @@ local objc = require'objc.src'
 objc.load'CoreLocation'
 objc.load'UIKit'
 objc.load'FLAnimatedImage'
+objc.load'Weather'
 --objc.load'CoreGraphics'
 local json = require'json'
 local ffi = require'ffi'
-_ = ffi.load("/System/Library/PrivateFrameworks/Weather.framework/Weather",true)
-_ = ffi.load("/System/Library/PrivateFrameworks/WeatherFoundation.framework/WeatherFoundation",true)
-
 weatherhandler = {}
 ---Fetch the forecast.
 ---@param gmcurtime string|osdate
@@ -16,11 +14,19 @@ weatherhandler = {}
 local function fetchForecast(gmcurtime,path)
     print("fetching forecast!")
     local releasepool = objc.NSAutoreleasePool:new()
-    print(tostring(objc.WeatherPreferences.sharedPreferences()))
-    local watodaymodel = objc.WATodayModel:autoupdatingLocationModelWithPreferences_effectiveBundleIdentifier(objc.WeatherPreferences.sharedPreferences(),objc.toobj"com.apple.locationd.bundle-/System/Library/Frameworks/CoreTelephony.framework")
-    local location = watodaymodel:location().geoLocation
-   print("locationManager coordiante: "..tostring(location.coordinate))
-    local str = string.format("http://api.openweathermap.org/data/3.0/onecall?lat=%f&lon=%f&appid=".."4cfd64f823763c23be0eb25c78eb5183",location.coordinate.latitude,location.coordinate.longitude)
+    print("Authed.")
+    --print("Made autoreleasepool!")
+    local locationManager = objc.CLLocationManager:alloc():init()
+    print("Inited!")
+    locationManager:startUpdatingLocation()
+    print("Updating location!")
+   -- print("Value of string global: "..tostring(string))
+   print("locationManager location: "..tostring(locationManager.location))
+   if not locationManager.location then  
+        error("Ignore this, we just need to wait for permission.")
+   end
+   print("locationManager coordiante: "..tostring(locationManager.location.coordinate))
+    local str = string.format("http://api.openweathermap.org/data/3.0/onecall?lat=%f&lon=%f&appid=".."4cfd64f823763c23be0eb25c78eb5183",locationManager.location.coordinate.latitude,locationManager.location.coordinate.longitude)
     --print(str)
     print("Formatted string!")
     locationManager:stopUpdatingLocation()

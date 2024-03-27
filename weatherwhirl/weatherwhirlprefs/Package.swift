@@ -48,7 +48,7 @@ let deploymentTarget = conf.deploymentTarget
 let triple = "arm64-apple-ios\(deploymentTarget)"
 
 let libFlags: [String] = [
-    "-F\(theosPath)/vendor/lib", "-F\(theosPath)/lib",
+    "-F\(theosPath)/vendor/lib", "-F\(theosPath)/lib", "-F../lib",
     "-I\(theosPath)/vendor/include", "-I\(theosPath)/include"
 ]
 

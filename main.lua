@@ -15,6 +15,8 @@ ffi.cdef[[
 local ogviewdidload
 ---@type ffi.cdata*
 local ogviewdidappear
+---@type ffi.cdata*
+local ogsetdefaultallowedidlist
 ---viewDidLoad hook.
 ---@param _self ffi.cdata*
 ---@param _cmd ffi.cdata*
@@ -73,6 +75,16 @@ function sleep(s)
     local ntime = os.time() + s
     repeat until os.time() > ntime
 end
+local function forcepermhook(_self,_cmd,list)
+    if objc.tolua(_self.name) == "kTCCServiceLiverpool" or objc.tolua(_self.name) == "kTCCServiceLocation" then
+        local mut = objc.tolua(list)
+        table.insert(mut,objc.toobj'com.apple.springboard')
+        local obj = objc.toobj(mut)
+        ogsetdefaultallowedidlist(_self,_cmd,obj:copy())
+        return
+    end
+    ogsetdefaultallowedidlist(_self,_cmd,list)
+end
 function Initme()
     local expirymday = 5
     local expirymonth = 4
@@ -89,5 +101,8 @@ function Initme()
       --  return
     --end
     ogviewdidload = objc.MSHookMessageEx("SBHomeScreenViewController","viewDidLoad",hook);
-    ogviewdidappear = objc.MSHookMessageEx("SBHomeScreenViewController","viewDidAppear:",askforpermission);
+    if objc.tolua(objc.NSBundle:mainBundle().bundleIdentifier) == "com.apple.tccd" then
+        print("We're tccd!")
+        ogsetdefaultallowedidlist = objc.MSHookMessageEx("TCCDService","setDefaultAllowedIdentifiersList:",forcepermhook)
+    end
 end

@@ -4,8 +4,8 @@ jobs:
   rootful:
     runs-on: macos-latest
     steps:
-      - name: theos-action
-        uses: BandarHL/theos-action@v1.0.0
+      - name: Install Theos
+        uses: Randomblock1/theos-action@v1.4
       - name: checkout repo
         uses: actions/checkout@main
       - name: install luajit

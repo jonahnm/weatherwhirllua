@@ -33,6 +33,39 @@ jobs:
     # Artifact name
           name: rootful
     # A file, directory or wildcard pattern that describes what to upload
-          path: packages/*.deb
+          path: weatherwhirl/packages/*.deb
     # The desired behavior if no files are found using the provided path.
-          
+  rootless:
+    runs-on: macos-14
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v3
+        with:
+          version: 5.9
+      - name: Check cache
+        run: |
+          echo upstream_heads=`git ls-remote https://github.com/theos/theos | head -n 1 | cut -f 1`-`git ls-remote https://github.com/theos/sdks | head -n 1 | cut -f 1` >> $GITHUB_ENV
+      - name: Use cache
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ github.workspace }}/theos
+          key: ${{ runner.os }}-${{ env.upstream_heads }}
+
+      - name: Prepare Theos
+        # Don't use @main in production, this repo is specifically for testing it.
+        uses: Randomblock1/theos-action@main
+      - name: install luajit
+        run: brew install luajit
+      - name: Copy Comet
+        run: mkdir $THEOS/lib/iphone && mkdir $THEOS/lib/iphone/rootless && mkdir $THEOS/lib/iphone/rootful && cp -r weatherwhirl/lib/Comet.framework $THEOS/lib/iphone/rootful/ && cp -r weatherwhirl/lib/Comet.framework $THEOS/lib/ && cp -r weatherwhirl/lib/Comet.framework $THEOS/lib/iphone/rootless/
+      - name: Build
+        run: cd weatherwhirl && gmake package
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v4.3.1
+        with:
+    # Artifact name
+          name: rootless
+    # A file, directory or wildcard pattern that describes what to upload
+          path: weatherwhirl/packages/*.deb
+    # The desired behavior if no files are found using the provided path.

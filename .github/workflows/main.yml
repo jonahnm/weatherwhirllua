@@ -8,8 +8,9 @@ jobs:
         uses: beerpiss/theos-action@v1.7.0
       - name: checkout repo
         uses: actions/checkout@main
-      - name: Build
+      - name: install luajit
         run: brew install luajit
+      - name: Build
         run: ROOTFUL=yes make package
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4.3.1

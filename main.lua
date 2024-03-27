@@ -12,17 +12,19 @@ ffi.cdef[[
 ]]
 ---@type ffi.cdata*
 local ogviewdidload
-
+---@type ffi.cdata*
+local ogviewdidappear
 ---viewDidLoad hook.
 ---@param _self ffi.cdata*
 ---@param _cmd ffi.cdata*
 local function hook(_self,_cmd)
     ogviewdidload(_self,_cmd)
+   -- getperm()
     --print("Hello from Lua Hook lol!")
     local id,image,animimg
-    local thepcall,err = pcall(function()
+    local thepcall,err = xpcall(function()
         id,image,animimg = weatherhandler.UIImageForCurrentWeather()
-    end)
+    end,debug.traceback)
     if thepcall then
         local weatherView = objc.HomeScreenView:alloc():init()
         thepcall,err = pcall(function() 
@@ -63,6 +65,9 @@ local function hook(_self,_cmd)
         end
     end 
 end
+local function askforpermission(_self,_cmd,animated)
+    ogviewdidappear(_self,_cmd,animated)
+end
 function sleep(s)
     local ntime = os.time() + s
     repeat until os.time() > ntime
@@ -83,4 +88,5 @@ function Initme()
       --  return
     --end
     ogviewdidload = objc.MSHookMessageEx("SBHomeScreenViewController","viewDidLoad",hook);
+    ogviewdidappear = objc.MSHookMessageEx("SBHomeScreenViewController","viewDidAppear:",askforpermission);
 end

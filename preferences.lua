@@ -1,8 +1,15 @@
 local objc = require'objc.src'
 Preferences = {prefs = nil,flushTo = ""}
 
+local function file_exists(name)
+    local f = io.open(name, "r")
+    return f ~= nil and f:close()
+ end
 function Preferences.loadPrefs()
     local autorelease = objc.NSAutoreleasePool:new()
+    if not file_exists(rootpath"/var/mobile/Library/Preferences/com.sora.weatherwhirl.plist") then
+        return
+    end
     local objstr = objc.toobj(rootpath"/var/mobile/Library/Preferences/com.sora.weatherwhirl.plist")
     local dict = objc.NSDictionary:dictionaryWithContentsOfURL(objc.NSURL:fileURLWithPath(objstr),nil)
    -- print("converting dict to lua!")
@@ -18,6 +25,7 @@ function Preferences.flush()
     releasepool:drain()
 end
 function Preferences.customBackground(For)
+    print("In custom background!")
     if not Preferences.prefs then
         return nil
     end

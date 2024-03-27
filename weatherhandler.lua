@@ -2,6 +2,7 @@ local objc = require'objc.src'
 objc.load'CoreLocation'
 objc.load'UIKit'
 objc.load'FLAnimatedImage'
+--objc.load'CoreGraphics'
 local json = require'json'
 local ffi = require'ffi'
 weatherhandler = {}
@@ -10,24 +11,31 @@ weatherhandler = {}
 ---@param path string
 ---@return table
 local function fetchForecast(gmcurtime,path)
-    --print("fetching forecast!")
+    print("fetching forecast!")
     local releasepool = objc.NSAutoreleasePool:new()
+    
+    print("Authed.")
     --print("Made autoreleasepool!")
     local locationManager = objc.CLLocationManager:alloc():init()
-    --print("Inited!")
-    locationManager:setAuthorizationStatus_forBundleIdentifier(true,objc.NSBundle.mainBundle().bundleIdentifier)
-    --print("Authed!")
+    print("Inited!")
     locationManager:startUpdatingLocation()
-    --print("Updating location!")
+    print("Updating location!")
+   -- print("Value of string global: "..tostring(string))
+   print("locationManager location: "..tostring(locationManager.location))
+   if not locationManager.location then  
+        error("Ignore this, we just need to wait for permission.")
+   end
+   print("locationManager coordiante: "..tostring(locationManager.location.coordinate))
     local str = string.format("http://api.openweathermap.org/data/3.0/onecall?lat=%f&lon=%f&appid=".."4cfd64f823763c23be0eb25c78eb5183",locationManager.location.coordinate.latitude,locationManager.location.coordinate.longitude)
     --print(str)
+    print("Formatted string!")
     locationManager:stopUpdatingLocation()
     local response = dohttp(str)
-    --print(response)
+    print(response)
     local obj = json.decode(response)
     local toencode = {forday = gmcurtime.yday,hourly = obj.hourly}
     local towrite
-    --print("About to pcall json!")
+    print("About to pcall json!")
     local thepcall,err = pcall(function ()
         towrite = json.encode(toencode)
     end)
@@ -35,7 +43,7 @@ local function fetchForecast(gmcurtime,path)
         print("Uhoh." .. tostring(err))
         return {}
     end
-    --print("toencode: "..towrite)
+    print("toencode: "..towrite)
     local fd,err = io.open(path,'w')
     if not fd then 
         print("Failed to write forecast.")
@@ -44,7 +52,7 @@ local function fetchForecast(gmcurtime,path)
     end
     fd:write(towrite)
     fd:close()
-    --print("Draining!")
+    print("Draining!")
     releasepool:drain()
     return toencode.hourly
 end
@@ -105,6 +113,7 @@ end
 ---@return integer,ffi.cdata*,ffi.cdata*
 function weatherhandler.UIImageForCurrentWeather() 
     local name,id
+    if Preferences.prefs then
     if not Preferences.prefs.overrideNext then
     name,id = getIDOfCurrentWeather()
     else
@@ -129,6 +138,9 @@ function weatherhandler.UIImageForCurrentWeather()
         Preferences.prefs.overrideNext = false
         Preferences.flush()
     end
+else
+    name,id = getIDOfCurrentWeather()
+end
 --    print(tostring(id))
     local animpath
     local filepath
@@ -142,9 +154,9 @@ function weatherhandler.UIImageForCurrentWeather()
     if id >= 500 and id <= 531 then
         filepath = rootpath"/Library/Application Support/WeatherWhirl/grey.jpg"
     end
-  --  print(filepath)
+    print(filepath)
     local image
-    --print(name)
+    print(name)
     image = Preferences.customBackground(name)
     if not image then
         image = objc.UIImage:imageWithContentsOfFile(objc.toobj(filepath))

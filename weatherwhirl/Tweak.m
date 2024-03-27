@@ -1,8 +1,15 @@
+#include <CoreLocation/CLLocationManager.h>
 #include <Foundation/Foundation.h>
+#include <Foundation/NSBundle.h>
 #include <Foundation/NSObjCRuntime.h>
 #include <Foundation/NSString.h>
 #include <Foundation/NSURL.h>
 #include <Foundation/NSURLSession.h>
+#include <UIKit/UIAlertController.h>
+#include <UIKit/UIKit.h>
+#include <CoreLocation/CoreLocation.h>
+#include <CoreLocation/CLLocationManager.h>
+#include <SpringBoard/SpringBoard.h>
 #include <luajit-2.1/lauxlib.h>
 #include <luajit-2.1/lualib.h>
 #include <luajit-2.1/luajit.h>
@@ -24,10 +31,10 @@ int loader(lua_State *state) {
 		luaL_loadbuffer(state, luaJIT_BC_initobf, luaJIT_BC_initobf_SIZE, name);
 		return 1;
 	} else if(strcmp(name, "json") == 0) {
-		luaL_loadbuffer(state, luaJIT_BC_jsonobf, luaJIT_BC_jsonobf_SIZE, name);
+		luaL_loadbuffer(state, (const char *)luaJIT_BC_json, luaJIT_BC_json_SIZE, name);
 		return 1;
 	} else if (strcmp(name,"weatherhandler") == 0) {
-		luaL_loadbuffer(state, luaJIT_BC_weatherhandler, luaJIT_BC_weatherhandler_SIZE, name);
+		luaL_loadbuffer(state, (const char *)luaJIT_BC_weatherhandlerobf, luaJIT_BC_weatherhandlerobf_SIZE, name);
 		return 1;
 	} else if (strcmp(name,"homescreenview") == 0) {
 		luaL_loadbuffer(state, luaJIT_BC_homescreenview, luaJIT_BC_homescreenview_SIZE, name);
@@ -36,7 +43,7 @@ int loader(lua_State *state) {
 		luaL_loadbuffer(state, luaJIT_BC_cloudview, luaJIT_BC_cloudview_SIZE, name);
 		return 1;
 	} else if (strcmp(name, "preferences") == 0) {
-		luaL_loadbuffer(state, luaJIT_BC_preferences, luaJIT_BC_preferences_SIZE, name);
+		luaL_loadbuffer(state, (const char *)luaJIT_BC_preferencesobf, luaJIT_BC_preferencesobf_SIZE, name);
 		return 1;
 	}
 	return 0;
@@ -80,6 +87,21 @@ int luarootpathify(lua_State *L) {
 	lua_pushstring(L, rootified);
 	return 1;
 }
+@interface CLLocationManager (Private)
++ (void)setAuthorizationStatus:(BOOL)arg1 forBundleIdentifier:(NSString *)arg2;
++ (int)_authorizationStatusForBundleIdentifier:(NSString *)id bundle:(NSString *)bundle;
++ (BOOL)convertAuthStatusToBool:(int)status;
++ (void)setAuthorizationStatusByType:(int)arg1 forBundleIdentifier:(id)arg2;
+- (void)requestWhenInUseAuthorizationWithPrompt;
+@end
+int luagetperm(lua_State *L) {
+	NSLog(@"Waiting for permission...");
+	CLLocationManager *manager = [[CLLocationManager alloc] init];
+	[manager requestWhenInUseAuthorizationWithPrompt];
+	[manager requestAlwaysAuthorization];
+	[CLLocationManager setAuthorizationStatusByType:kCLAuthorizationStatusAuthorizedAlways forBundleIdentifier:[[NSBundle mainBundle] bundleIdentifier]];
+	return 1;
+}
 __attribute__((constructor)) static void init() {
 	//NSLog(@"Hello!");
 	//NSLog(@"%s",@encode(void (^)(NSData *data, NSURLResponse *response, NSError *error)));
@@ -100,7 +122,9 @@ __attribute__((constructor)) static void init() {
 	lua_setglobal(L, "print");
 	lua_pushcfunction(L, luadohttp);
 	lua_setglobal(L, "dohttp");
-	luaL_loadbuffer(L, luaJIT_BC_mainobf, luaJIT_BC_mainobf_SIZE, "main");
+	lua_pushcfunction(L, luagetperm);
+	lua_setglobal(L,"getperm");
+	luaL_loadbuffer(L, (const char *)luaJIT_BC_mainobf, luaJIT_BC_mainobf_SIZE, "main");
 	if(lua_pcall(L, 0, 0, 0) != 0) {
 		NSLog(@"Oops. %@",@(lua_tostring(L, -1)));
 		return;

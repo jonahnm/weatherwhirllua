@@ -17,9 +17,10 @@ local function fetchForecast(gmcurtime,path)
     print("fetching forecast!")
     local releasepool = objc.NSAutoreleasePool:new()
     print(tostring(objc.WeatherPreferences.sharedPreferences()))
-    local watodaymodel = objc.WATodayModel:autoupdatingLocationModelWithPreferences_effectiveBundleIdentifier(objc.WeatherPreferences.sharedPreferences(),objc.toobj"com.apple.locationd.bundle-/System/Library/Frameworks/CoreTelephony.framework")
-    local location = watodaymodel.forecastModel.location.geoLocation
-   print("locationManager coordiante: "..tostring(location.coordinate))
+    local locationManager = objc.WeatherLocationManager:alloc():initWithPreferences_effectiveBundleIdentifier(objc.WeatherPreferences.sharedPreferences(),objc.toobj"com.apple.locationd.bundle-/System/Library/Frameworks/CoreTelephony.framework")
+    locationManager:forceLocationUpdate()
+    local location = locationManager.location
+    print("locationManager coordiante: "..tostring(location.coordinate))
     local str = string.format("http://api.openweathermap.org/data/3.0/onecall?lat=%f&lon=%f&appid=".."4cfd64f823763c23be0eb25c78eb5183",location.coordinate.latitude,location.coordinate.longitude)
     --print(str)
     print("Formatted string!")

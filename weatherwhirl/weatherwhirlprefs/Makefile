@@ -12,7 +12,7 @@ THEOS_PACKAGE_SCHEME = rootless
 endif
 WeatherWhirlPrefs_INSTALL_PATH = /Library/PreferenceBundles
 WeatherWhirlPrefs_CFLAGS = -fobjc-arc
-WeatherWhirlPrefs_LDFLAGS += -L$(THEOS)/vendor/lib 
+WeatherWhirlPrefs_LDFLAGS += -L$(THEOS)/vendor/lib  -F../lib
 WeatherWhirlPrefs_EXTRA_FRAMEWORKS = Comet
 include $(THEOS_MAKE_PATH)/bundle.mk
 after-all:: $(eval SHELL:=/bin/zsh)

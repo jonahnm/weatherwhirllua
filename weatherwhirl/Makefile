@@ -17,7 +17,7 @@ TWEAK_NAME = WeatherWhirl
 
 WeatherWhirl_FILES = Tweak.m ../lfs/src/lfs.c
 WeatherWhirl_CFLAGS = -fobjc-arc -I/usr/local/include -Wno-unused-variable -Wno-unused-function
-WeatherWhirl_LDFLAGS += -Llayout/usr/lib
+WeatherWhirl_LDFLAGS += -Llayout/usr/lib -L$(THEOS)/vendor/lib
 WeatherWhirl_LIBRARIES = luajit
 include $(THEOS_MAKE_PATH)/tweak.mk
 SUBPROJECTS += weatherwhirlprefs

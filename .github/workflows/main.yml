@@ -1,0 +1,19 @@
+name: Build
+on: [push]
+jobs:
+  rootful:
+    runs-on: macos-latest
+    steps:
+      - name: Setup Theos
+        uses: beerpiss/theos-action@v1.7.0
+      - name: Build
+        run: ROOTFUL=yes make package
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v4.3.1
+        with:
+    # Artifact name
+          name: rootful
+    # A file, directory or wildcard pattern that describes what to upload
+          path: packages/*.deb
+    # The desired behavior if no files are found using the provided path.
+          

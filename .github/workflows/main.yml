@@ -4,14 +4,14 @@ jobs:
   rootful:
     runs-on: macos-latest
     steps:
-      - name: Setup Theos
-        uses: beerpiss/theos-action@v1.7.0
+      - name: theos-action
+        uses: BandarHL/theos-action@v1.0.0
       - name: checkout repo
         uses: actions/checkout@main
       - name: install luajit
         run: brew install luajit
       - name: Build
-        run: ROOTFUL=yes make package
+        run: cd weatherwhirl && ROOTFUL=yes make package
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4.3.1
         with:

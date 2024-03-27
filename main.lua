@@ -1,5 +1,6 @@
 local objc = require'objc.src'
 table.insert(objc.searchpaths,"/var/jb/Library/Frameworks/")
+table.insert(objc.searchpaths,"/Library/PrivateFrameworks")
 local ffi = require'ffi'
 local weatherhandler = require'weatherhandler'
 local homescreenview = require'homescreenview'

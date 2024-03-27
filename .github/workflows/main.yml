@@ -6,7 +6,10 @@ jobs:
     steps:
       - name: Setup Theos
         uses: beerpiss/theos-action@v1.7.0
+      - name: checkout repo
+        uses: actions/checkout@main
       - name: Build
+        run: brew install luajit
         run: ROOTFUL=yes make package
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4.3.1

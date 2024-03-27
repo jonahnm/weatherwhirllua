@@ -23,6 +23,8 @@ jobs:
         uses: Randomblock1/theos-action@main
       - name: install luajit
         run: brew install luajit
+      - name: Copy Comet
+        run: mkdir $THEOS/lib/iphone && mkdir $THEOS/lib/iphone/rootless && mkdir $THEOS/lib/iphone/rootful && cp -r weatherwhirl/lib/Comet.framework $THEOS/lib/iphone/rootful/ && cp -r weatherwhirl/lib/Comet.framework $THEOS/lib/ && cp -r weatherwhirl/lib/Comet.framework $THEOS/lib/iphone/rootless/
       - name: Build
         run: cd weatherwhirl && ROOTFUL=yes gmake package
       - name: Upload a Build Artifact

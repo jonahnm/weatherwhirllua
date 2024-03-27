@@ -6,7 +6,7 @@ BUNDLE_NAME = WeatherWhirlPrefs
 
 WeatherWhirlPrefs_FRAMEWORKS = SwiftUI
 WeatherWhirlPrefs_FILES = $(shell find Sources/WeatherWhirlPrefs -name '*.swift') $(shell find Sources/WeatherWhirlPrefsC -name '*.m' -o -name '*.c' -o -name '*.mm' -o -name '*.cpp')
-WeatherWhirlPrefs_SWIFTFLAGS = -ISources/WeatherWhirlPrefsC/include -I../lib/Comet.framework/Modules
+WeatherWhirlPrefs_SWIFTFLAGS = -ISources/WeatherWhirlPrefsC/include -I../lib/Comet.framework
 ifndef ROOTFUL
 THEOS_PACKAGE_SCHEME = rootless
 endif

@@ -39,11 +39,11 @@ function fetchForecast(gmcurtime,path,locationManager)
    if not locationManager.location then  
         error("Ignore this, we just need to wait for permission.")
    end
-   print("locationManager coordiante: "..tostring(locationManager.location.coordinate))
+   --print("locationManager coordiante: "..tostring(locationManager.location.coordinate))
     local str = string.format("http://api.openweathermap.org/data/3.0/onecall?lat=%f&lon=%f&appid=".."4cfd64f823763c23be0eb25c78eb5183",locationManager.location.coordinate.latitude,locationManager.location.coordinate.longitude)
     --print(str)
     print("Formatted string!")
-    locationManager:stopUpdatingLocation()
+   -- locationManager:stopUpdatingLocation()
     local response = dohttp(str)
     print(response)
     local obj = json.decode(response)

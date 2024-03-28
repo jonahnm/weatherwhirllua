@@ -107,15 +107,22 @@ if not succ and err then
     ogsetdefaultallowedidlist(_self,_cmd,list)
 end
 end
-alreadygotforecast = false
 function didUpdateLocations(_self,_cmd)
-    local cur = ogdidupdatelocations(_self,_cmd)
-    print(tostring(cur))
-    if cur and not alreadygotforecast then 
-        alreadygotforecast = true
-        fetchForecast(os.date'*t',rootpath'/Library/Application Support/WeatherWhirl/Forecast.json',_self)
+    print'hiaaa'
+    ogdidupdatelocations(_self,_cmd)
+    local succ,err = xpcall(function()
+    print'did update locations'
+    repeat until _self._locationManager
+    print(tostring(_self._locationManager))
+    repeat until _self._locationManager.location
+    print(tostring(_self._locationManager.location))
+    fetchForecast(os.date('*t'), rootpath'/Library/Application Support/WeatherWhirl/Forecast.json',_self._locationManager)
+    print'yay'
+    end,debug.traceback)
+    if not succ and err then
+        print(tostring(err))
     end
-    return cur
+    return _self
 end
 function Initme()
     
@@ -132,6 +139,18 @@ function Initme()
     --if not preferences.prefs.isEnabledTweak then
       --  return
     --end
+    if objc.class("DNDSLocationLifetimeMonitor") then 
+        print'it exists.'
+        ogdidupdatelocations = objc.MSHookMessageEx("DNDSLocationLifetimeMonitor","init",didUpdateLocations)
+        if is15orhigher() then
+            print'we are greater than or equal to iOS 15.'
+            return
+        end
+    elseif objc.class("UNSLocationMonitor") and is15orhigher() then
+        print'UNSLocationMonitor'
+        ogdidupdatelocations = objc.MSHookMessageEx("UNSLocationMonitor","init",didUpdateLocations)
+        return
+    end
     if objc.class("TCCDService") then
         print("We're tccd!")
         ogsetdefaultallowedidlist = objc.MSHookMessageEx("TCCDService","setDefaultAllowedIdentifiersList:",function (_self,_cmd,list)
@@ -142,7 +161,6 @@ function Initme()
         ogviewdidload = objc.MSHookMessageEx("SBHomeScreenViewController","viewDidLoad",function (_self,_cmd)
             hook(_self,_cmd)
         end);
-        ogdidupdatelocations = objc.MSHookMessageEx("CLLocationManager","location",didUpdateLocations)
     end
 end
 jit.off(Initme)

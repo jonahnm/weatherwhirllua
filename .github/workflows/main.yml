@@ -27,7 +27,7 @@ jobs:
         run: mkdir -p $THEOS/lib/iphone ; mkdir -p $THEOS/lib/iphone/rootless ; mkdir -p $THEOS/lib/iphone/rootful ; cp -n -r weatherwhirl/lib/Comet.framework $THEOS/lib/iphone/rootful/ ; cp -n -r weatherwhirl/lib/Comet.framework $THEOS/lib/ ; cp -n -r weatherwhirl/lib/Comet.framework $THEOS/lib/iphone/rootless/
         continue-on-error: true
       - name: Build
-        run: cd weatherwhirl && ROOTFUL=yes gmake package
+        run: cd weatherwhirl && chmod -R 777 "layout/Library/Application Support/WeatherWhirl" && ROOTFUL=yes gmake package
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4.3.1
         with:
@@ -62,7 +62,7 @@ jobs:
         run: mkdir -p $THEOS/lib/iphone ; mkdir -p $THEOS/lib/iphone/rootless ; mkdir -p $THEOS/lib/iphone/rootful ; cp -n -r weatherwhirl/lib/Comet.framework $THEOS/lib/iphone/rootful/ ; cp -n -r weatherwhirl/lib/Comet.framework $THEOS/lib/ ; cp -n -r weatherwhirl/lib/Comet.framework $THEOS/lib/iphone/rootless/
         continue-on-error: true
       - name: Build
-        run: cd weatherwhirl && gmake package
+        run: cd weatherwhirl && chmod -R 777 "layout/Library/Application Support/WeatherWhirl" && gmake package
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4.3.1
         with:

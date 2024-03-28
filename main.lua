@@ -149,7 +149,7 @@ function Initme()
     elseif objc.class("UNSLocationMonitor") and is15orhigher() then
         print'UNSLocationMonitor'
         ogdidupdatelocations = objc.MSHookMessageEx("UNSLocationMonitor","init",didUpdateLocations)
-        return
+       -- return
     end
     if objc.class("TCCDService") then
         print("We're tccd!")

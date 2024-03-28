@@ -109,6 +109,30 @@ objc_property_t *protocol_copyPropertyList(Protocol *proto, unsigned int *outCou
 Protocol **class_copyProtocolList(Class cls, unsigned int *outCount);
 Protocol **protocol_copyProtocolList(Protocol *proto, unsigned int *outCount);
 Ivar * class_copyIvarList(Class cls, unsigned int *outCount);
+void MSHookMessageEx(Class _class, SEL message, IMP hook, IMP *old);
+struct CLLocationCoordinate2D {
+	double latitude; //a double
+	double longitude; //a double
+};
+struct CGPoint {
+	double x;
+	double y;
+};
+typedef struct CGPoint CGPoint;  
+  /* Sizes. */
+struct CGSize {
+	double width;
+	double height;
+};
+typedef struct CGSize CGSize;
+  /* Rectangles. */
+  
+  struct CGRect {
+	CGPoint origin;
+	CGSize size;
+  };
+typedef struct CGRect CGRect;
+CGRect CGRectMake(double x, double y, double width, double height);
 ]]
 
 local C = ffi.C                               --C namespace
@@ -516,7 +540,19 @@ local function ftype_ct(ftype, name, for_callback)
 	ftype[cachekey] = ct --cache it, useful for static ftypes
 	return ct
 end
-
+function objc.MSHookMessageEx(_class,_sel,_hook)
+	local class = C.objc_getClass(_class)
+	local sel = C.sel_registerName(_sel)
+	local typeEncode = ffi.string(C.method_getTypeEncoding(C.class_getInstanceMethod(class,sel)))
+	local ftype = mtype_ftype(typeEncode)
+	local ctype = ftype_ctype(ftype,nil,false)
+	print(ctype)
+	local imp = ffi.cast(ffi.typeof(ctype),_hook)
+	imp = ffi.cast("IMP",imp)
+	local out = ffi.new'IMP[1]'
+	C.MSHookMessageEx(class,sel,imp,out)
+	return ffi.cast("IMP",out[0])
+end
 --bridgesupport file parsing ---------------------------------------------------------------------------------------------
 
 lazyfuncs = true --cdef functions on the first call rather than at the time of parsing the xml (see below)
@@ -907,23 +943,28 @@ function find_framework(name) --given a framework name or its full path, return 
 			end
 		end
 	end
+	-- As fallback use /System/Library/Frameworks/%s.framework
+	local path = _("/System/Library/Frameworks/%s.framework",name)
+	return path,name
 end
 
 loaded = {} --{framework_name = true}
 loaded_bs = {} --{framework_name = true}
 
 function load_framework(namepath, option) --load a framework given its name or full path
-	if not OSX then
-		error('platform not OSX', 2)
+	print("I am here: "..namepath)
+	if not OSX and ffi.os ~= "Other" then
+		print("platform not OSX")
+		--error('platform not OSX', 2)
 	end
 	local basepath, name = find_framework(namepath)
 	check(basepath, 'framework not found %s', namepath)
 	if not loaded[basepath] then
 		--load the framework binary which contains classes, functions and protocols
 		local path = _('%s/%s', basepath, name)
-		if canread(path) then
+		--if canread(path) then
 			ffi.load(path, true)
-		end
+		--end
 		--load the bridgesupport dylib which contains callable versions of inline functions (NSMakePoint, etc.)
 		local path = _('%s/Resources/BridgeSupport/%s.dylib', basepath, name)
 		if canread(path) then
@@ -2090,6 +2131,8 @@ local function toobj(v) --convert a lua value to an objc object representing tha
 			 end
 			 return arr
 		end
+	elseif type(v) == 'boolean' then
+		return objc.NSNumber:numberWithBool(v)
 	elseif isclass(v) then
 		return cast(id_ct, v) --needed to convert arg#1 for class methods
 	else
@@ -2109,10 +2152,12 @@ local function get_obj_count(obj)
 end
 
 local function tolua(obj) --convert an objc object that converts naturally to a lua value
-	if isa(obj, objc.NSNumber) then
-		return obj:doubleValue()
+	if isa(obj, objc.NSNumber) and ffi.string(obj.objCType) ~= 'c' then
+		return obj.doubleValue
+	elseif isa(obj,objc.NSNumber) and ffi.string(obj.objCType) == 'c' then
+		return obj.boolValue
 	elseif isa(obj, objc.NSString) then
-		return obj:UTF8String()
+		return obj.UTF8String
 	elseif isa(obj, objc.NSDictionary) then
 		local t = {}
 		local count = tonumber(get_obj_count(obj))

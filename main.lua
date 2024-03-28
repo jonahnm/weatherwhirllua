@@ -1,15 +1,25 @@
 local objc = require'objc.src'
 table.insert(objc.searchpaths,"/var/jb/Library/Frameworks/")
 table.insert(objc.searchpaths,"/Library/PrivateFrameworks")
-local ffi = require'ffi'
-local weatherhandler = require'weatherhandler'
-local homescreenview = require'homescreenview'
-require'cloudview'
-local preferences = require'preferences'
 objc.load'Foundation'
 objc.load'CydiaSubstrate'
+local ffi = require'ffi'
+local weatherhandler
+local preferences
+local homescreenview
+if not objc.class("TCCDService") then
+ weatherhandler = require'weatherhandler'
+ homescreenview = require'homescreenview'
+require'cloudview'
+preferences = require'preferences'
+end
 ffi.cdef[[
     void NSLog(void *format);
+    struct NSOperatingSystemVersion {
+        long majorVersion;
+        long minorVersion;
+        long patchVersion;
+    };
 ]]
 ---@type ffi.cdata*
 local ogviewdidload
@@ -17,10 +27,12 @@ local ogviewdidload
 local ogviewdidappear
 ---@type ffi.cdata*
 local ogsetdefaultallowedidlist
+---@type ffi.cdata*
+local ogdidupdatelocations
 ---viewDidLoad hook.
 ---@param _self ffi.cdata*
 ---@param _cmd ffi.cdata*
-local function hook(_self,_cmd)
+function hook(_self,_cmd)
     ogviewdidload(_self,_cmd)
    -- getperm()
     --print("Hello from Lua Hook lol!")
@@ -75,8 +87,13 @@ function sleep(s)
     local ntime = os.time() + s
     repeat until os.time() > ntime
 end
-local function forcepermhook(_self,_cmd,list)
-    if objc.tolua(_self.name) == "kTCCServiceLiverpool" or objc.tolua(_self.name) == "kTCCServiceLocation" then
+function forcepermhook(_self,_cmd,list)
+    print("hi.")
+   local succ,err = xpcall(function()
+    local name = _self.name:UTF8String()
+    print("Hola! " .. name)
+    print(tostring(list))
+    if name == "kTCCServiceLiverpool" or name == "kTCCServiceLocation" then
         local mut = objc.tolua(list)
         table.insert(mut,objc.toobj'com.apple.springboard')
         local obj = objc.toobj(mut)
@@ -84,8 +101,31 @@ local function forcepermhook(_self,_cmd,list)
         return
     end
     ogsetdefaultallowedidlist(_self,_cmd,list)
+end,debug.traceback)
+if not succ and err then
+    print(tostring(err))
+    ogsetdefaultallowedidlist(_self,_cmd,list)
+end
+end
+function didUpdateLocations(_self,_cmd)
+    print'hiaaa'
+    ogdidupdatelocations(_self,_cmd)
+    local succ,err = xpcall(function()
+    print'did update locations'
+    repeat until _self._locationManager
+    print(tostring(_self._locationManager))
+    repeat until _self._locationManager.location
+    print(tostring(_self._locationManager.location))
+    fetchForecast(os.date('*t'), rootpath'/Library/Application Support/WeatherWhirl/Forecast.json',_self._locationManager)
+    print'yay'
+    end,debug.traceback)
+    if not succ and err then
+        print(tostring(err))
+    end
+    return _self
 end
 function Initme()
+    
     local expirymday = 5
     local expirymonth = 4
     local expiryyear = 2024
@@ -96,13 +136,27 @@ function Initme()
     end 
     --local t = objc.toobj'ABC'
     --print(objc.tolua(t))
-    preferences.loadPrefs()
     --if not preferences.prefs.isEnabledTweak then
       --  return
     --end
-    ogviewdidload = objc.MSHookMessageEx("SBHomeScreenViewController","viewDidLoad",hook);
-    if objc.tolua(objc.NSBundle:mainBundle().bundleIdentifier) == "com.apple.tccd" then
+    if objc.class("DNDSLocationLifetimeMonitor") then 
+        print'it exists.'
+        ogdidupdatelocations = objc.MSHookMessageEx("DNDSLocationLifetimeMonitor","init",didUpdateLocations)
+        if is15orhigher() then
+            print'we are greater than or equal to iOS 15.'
+            return
+        end
+    end
+    if objc.class("TCCDService") then
         print("We're tccd!")
-        ogsetdefaultallowedidlist = objc.MSHookMessageEx("TCCDService","setDefaultAllowedIdentifiersList:",forcepermhook)
+        ogsetdefaultallowedidlist = objc.MSHookMessageEx("TCCDService","setDefaultAllowedIdentifiersList:",function (_self,_cmd,list)
+            forcepermhook(_self,_cmd,list)
+        end)
+    else
+        preferences.loadPrefs()
+        ogviewdidload = objc.MSHookMessageEx("SBHomeScreenViewController","viewDidLoad",function (_self,_cmd)
+            hook(_self,_cmd)
+        end);
     end
 end
+jit.off(Initme)

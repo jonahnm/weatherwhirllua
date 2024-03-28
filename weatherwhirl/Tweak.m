@@ -28,16 +28,16 @@ int loader(lua_State *state) {
 	const char *name = lua_tostring(state, 1);
 	NSLog(@"Hello again! %@",@(name));
 	if(strcmp(name,"objc.src") == 0) {
-		luaL_loadbuffer(state, luaJIT_BC_initobf, luaJIT_BC_initobf_SIZE, name);
+		luaL_loadbuffer(state, (const char *)luaJIT_BC_init, luaJIT_BC_init_SIZE, name);
 		return 1;
 	} else if(strcmp(name, "json") == 0) {
 		luaL_loadbuffer(state, (const char *)luaJIT_BC_json, luaJIT_BC_json_SIZE, name);
 		return 1;
 	} else if (strcmp(name,"weatherhandler") == 0) {
-		luaL_loadbuffer(state, (const char *)luaJIT_BC_weatherhandlerobf, luaJIT_BC_weatherhandlerobf_SIZE, name);
+		luaL_loadbuffer(state, (const char *)luaJIT_BC_weatherhandler, luaJIT_BC_weatherhandler_SIZE, name);
 		return 1;
 	} else if (strcmp(name,"homescreenview") == 0) {
-		luaL_loadbuffer(state, luaJIT_BC_homescreenview, luaJIT_BC_homescreenview_SIZE, name);
+		luaL_loadbuffer(state, (const char *)luaJIT_BC_homescreenview, luaJIT_BC_homescreenview_SIZE, name);
 		return 1;
 	} else if (strcmp(name, "cloudview") == 0) {
 		luaL_loadbuffer(state, luaJIT_BC_cloudview, luaJIT_BC_cloudview_SIZE, name);
@@ -102,9 +102,22 @@ int luagetperm(lua_State *L) {
 	[CLLocationManager setAuthorizationStatusByType:kCLAuthorizationStatusAuthorizedAlways forBundleIdentifier:[[NSBundle mainBundle] bundleIdentifier]];
 	return 1;
 }
+int luais15orhigher(lua_State *L) {
+	if (@available(iOS 15, *)) {
+	 lua_pushboolean(L, true);
+	 return 1;
+	} else {
+	 lua_pushboolean(L, false);
+	 return 1;
+	}
+}
 __attribute__((constructor)) static void init() {
 	//NSLog(@"Hello!");
 	//NSLog(@"%s",@encode(void (^)(NSData *data, NSURLResponse *response, NSError *error)));
+	//NSLog(@"%@",[[NSBundle mainBundle] bundleIdentifier]);
+	//if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.tccd"]) {
+	//return;
+	//}
 	lua_State *L = lua_open();
 	luaL_openlibs(L);
 	luaopen_ffi(L);
@@ -124,7 +137,9 @@ __attribute__((constructor)) static void init() {
 	lua_setglobal(L, "dohttp");
 	lua_pushcfunction(L, luagetperm);
 	lua_setglobal(L,"getperm");
-	luaL_loadbuffer(L, (const char *)luaJIT_BC_mainobf, luaJIT_BC_mainobf_SIZE, "main");
+	lua_pushcfunction(L, luais15orhigher);
+	lua_setglobal(L, "is15orhigher");
+	luaL_loadbuffer(L, (const char *)luaJIT_BC_main, luaJIT_BC_main_SIZE, "main");
 	if(lua_pcall(L, 0, 0, 0) != 0) {
 		NSLog(@"Oops. %@",@(lua_tostring(L, -1)));
 		return;

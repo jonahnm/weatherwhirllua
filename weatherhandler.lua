@@ -6,18 +6,33 @@ objc.load'FLAnimatedImage'
 local json = require'json'
 local ffi = require'ffi'
 weatherhandler = {}
----Fetch the forecast.
+local function file_exists(name)
+    local f = io.open(name, "r")
+    return f ~= nil and f:close()
+ end
+ ---Fetch the forecast.
 ---@param gmcurtime string|osdate
 ---@param path string
 ---@return table
-local function fetchForecast(gmcurtime,path)
+function fetchForecast(gmcurtime,path,locationManager)
+    if file_exists(path) then
+        local fd = io.open(path,'r')
+        if not fd then
+            error("Unreachable.")
+        end
+        local _json_ = fd:read('*a')
+        local obj = json.decode(_json_)
+        fd:close()
+        if obj.forday ~= gmcurtime.yday then
+            os.remove(path)
+        else
+            return obj.hourly
+        end
+    end
     print("fetching forecast!")
     local releasepool = objc.NSAutoreleasePool:new()
     print("Authed.")
     --print("Made autoreleasepool!")
-    local locationManager = objc.CLLocationManager:alloc():init()
-    print("Inited!")
-    locationManager:startUpdatingLocation()
     print("Updating location!")
    -- print("Value of string global: "..tostring(string))
    print("locationManager location: "..tostring(locationManager.location))
@@ -55,18 +70,12 @@ local function fetchForecast(gmcurtime,path)
     releasepool:drain()
     return toencode.hourly
 end
-local function file_exists(name)
-    local f = io.open(name, "r")
-    return f ~= nil and f:close()
- end
 ---@return table
 local function getForecast()
     local path = rootpath'/Library/Application Support/WeatherWhirl/Forecast.json'
     --print(path)
     local time = os.date('*t')
-    if not file_exists(path) then
-        return fetchForecast(time,path)
-    else 
+        repeat until file_exists(path)
       --  print('File exists!')
         local fd = io.open(path)
         if not fd then
@@ -77,15 +86,14 @@ local function getForecast()
         local obj = json.decode(jsonstr)
         local wasForDay = obj.forday
         print(wasForDay)
-        if wasForDay ~= time.yday then
-            fd:close()
-            os.remove(path)
-            return fetchForecast(time,path)
-        end
-        fd:close()
+        --if wasForDay ~= time.yday then
+          --  fd:close()
+           -- os.remove(path)
+           -- return fetchForecast(time,path)
+       -- end
+      --  fd:close()
         return obj.hourly
     end
-end
 ---@return string,integer
 local function getIDOfCurrentWeather()
     local forecast = getForecast()

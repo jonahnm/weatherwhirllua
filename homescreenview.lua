@@ -9,7 +9,7 @@ homescreenview.AnimPlace = {
 }
 function sleep(s)
     local ntime = os.time() + s
-    repeat until os.time() > ntime
+    repeat coroutine.yield() until os.time() > ntime
 end
 homescreenviewisupdating = false
 function objc.HomeScreenView:update()
@@ -19,13 +19,13 @@ function objc.HomeScreenView:update()
     end)
     if thepcall then
         local weatherView = self
-        --thepcall,err = pcall(function() 
-        --weatherView:setCloudView(objc.CloudView:alloc():init())
-        --end)
-        --if not thepcall and err then
-         --   print("setCloudView oops! "..tostring(err))
-         --   return
-      --  end
+        thepcall,err = pcall(function() 
+        weatherView:setCloudView(objc.CloudView:alloc():init())
+        end)
+        if not thepcall and err then
+         print("setCloudView oops! "..tostring(err))
+         return
+       end
         weatherView.cloudView.backgroundColor = objc.UIColor:clearColor()
         weatherView.backgroundColor = objc.UIColor:clearColor()
         thepcall,err = pcall(function()
@@ -50,9 +50,10 @@ function objc.HomeScreenView:update()
         end
 end
 end
-local loop = coroutine.create(function (inst)
+local loop = coroutine.wrap(function (inst)
     local first = true
     while true do
+        coroutine.yield()
         local time = os.date('*t')
         local sleeptime = (60-time.min)*60
         if not first then
@@ -89,10 +90,7 @@ function objc.HomeScreenView:setBackgroundWithImage(img)
     if img:isKindOfClass(objc.UIImage:class()) then
        -- print('Setting imageView!')
         self:setImgView(objc.UIImageView:alloc():initWithImage(img))
-       -- if not homescreenviewisupdating then
-          --  homescreenviewisupdating = true
-         --   coroutine.resume(loop,self)
-      --  end
+        loop(self)
     end
 end
 function objc.HomeScreenView:setCloudView(cloudView)
